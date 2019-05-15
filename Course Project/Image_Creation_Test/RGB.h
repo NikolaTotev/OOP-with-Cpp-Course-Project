@@ -2,15 +2,18 @@
 
 struct RGB
 {
-	RGB(unsigned int r, unsigned int  g, unsigned int b)
+	RGB(unsigned char r, unsigned char  g, unsigned char b)
 	{
+		
 		R = r;
 		G = g;
 		B = b;
+
+		
 	}
 
-	unsigned int  R;
-	unsigned int  G;
-	unsigned int  B;
+	unsigned char  R;
+	unsigned char G;
+	unsigned char B;
 
 };
