@@ -24,41 +24,32 @@ void Image::writePixelData(std::ofstream & file, RGB pixel)
 	}
 }
 
-void Image::readHeader(string fileName)
+bool Image::readHeader(string fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
-	int numberOfTabs = 0;
 	string magicNumber;
-	string width;
-	string height;
-	string maxColVal;
+	string cmnt;
+	string cmnt1;
+	string cmnt2;
+	size_int width;
+	size_int height;
+	int maxColVal;
 	string currentValue;
-	while(numberOfTabs < 4)
-	{
-		file >> currentValue;
-		std::cout << currentValue;
-		if(currentValue == " ")
-		{
-			std::cout << "SPACE";
-			numberOfTabs++;
-		}
 
-		switch (numberOfTabs)
-		{
-		case(0):
-			file >> magicNumber;
-			break;
-		case(1):
-			file >> width;
-			break;
-		case(2):
-			file >> height;
-			break;
-		case(3):
-			file >> magicNumber;
-			break;
-		}
+	file >> magicNumber >> width  >> height  >> maxColVal;
+
+	bool isValidFormat = (magicNumber == "P6" | magicNumber == "P5" | magicNumber == "P4");
+	bool hasValidSize = (width > 0 && height > 0);
+	bool hasValidBitDepth = (maxColVal > 0 && maxColVal < 256);
+
+	if(isValidFormat && hasValidSize && hasValidBitDepth)
+	{
+		std::cout << "Valid file";
+	}
+	else
+	{
+		std::cout << "File is invalid";
 	}
 	std::cout << magicNumber << std::endl << width << std::endl << height << std::endl << maxColVal << std::endl;
 
