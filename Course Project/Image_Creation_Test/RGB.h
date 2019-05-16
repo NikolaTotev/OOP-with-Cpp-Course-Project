@@ -1,7 +1,8 @@
 #pragma once
 
-struct RGB
+class RGB
 {
+public:
 	RGB(unsigned char r, unsigned char  g, unsigned char b)
 	{
 		pixelData[0] = r;
@@ -9,4 +10,6 @@ struct RGB
 		pixelData[2] = b;
 	}
 	unsigned char pixelData[3];
+
+	void averagePixel();
 };

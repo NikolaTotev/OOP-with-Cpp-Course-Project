@@ -7,15 +7,24 @@ using std::string;
 class Image
 {
 	typedef unsigned int size_int;
+	const size_int defaultWidth = 512;
+	const size_int defaultHeight = 512;
+	const size_int default_ppm_depth = 255;
+
 
 	unsigned int width;
 	unsigned int height;
-	const int max_color_val;
-	vector<vector<RGB>> image_data;
+	int max_color_val;
+
+	vector<RGB> image_data;
+	string rawImageData;
+
 	string magicNumber;
 	string file_name;
 
+
 public:
+	std::ofstream file;
 
 	Image(size_int width, size_int height, int maxColVal, string fileName, string magicNumber) :
 		width(width), height(height), max_color_val(maxColVal), magicNumber(magicNumber)
@@ -23,14 +32,26 @@ public:
 		setFileName(fileName);
 	}
 
+	Image(string fileName);
+
 	//TODO implement option to add any extention based on input parameter;
 	void setFileName(string new_name) { file_name = new_name+".ppm";}
 	
+	void setMagicNumber(string _magicNumber) { magicNumber = _magicNumber; }
+	void setHeight(size_int _height) { height = _height; }
+	void setWidth(size_int _width) { width = _width; }
+	void setBitDepth(int _depth) { max_color_val = _depth; }
+	void setRawImageData(string rawData) { rawImageData = rawData; }
+	void addPixel(RGB pixel) { image_data.push_back(pixel); }
+	void writeFile(std::ofstream& file);
 	string getFileName() { return file_name; }
 	string getMagicNumber() { return magicNumber; }
 
 	size_int getHeight() { return height; }
 	size_int getWidth() { return  width; }
+
+	vector<RGB> getImageData() { return image_data; }
+	string getRawImageData() { return rawImageData; }
 
 	int getColorValue() { return max_color_val; }
 
@@ -38,6 +59,8 @@ public:
 	void writeHeader(std::ofstream& file, string magicNumber, size_int height, size_int width, int max_col_val);
 	void writePixelData(std::ofstream& file, RGB pixel);
 
-	void readHeader(string file);
-	void readPixelData(std::ifstream& file);
+	bool validHeader(string file);
+	void readPixelData(string file);
+
+	void setHeaderInfo(string magicNumber, size_int width, size_int height, int bitDepth);
 };
