@@ -1,6 +1,13 @@
 #include "Image.h"
 #include <string>
 #include <iostream>
+using namespace std;
+
+
+Image::~Image()
+{
+	delete[] rawData;
+}
 
 Image::Image(string fileName) :file_name(fileName)
 {
@@ -14,14 +21,21 @@ Image::Image(string fileName) :file_name(fileName)
 	}
 }
 
+void Image::setRawImageData(char * _rawData)
+{
+	
+}
+
 void Image::writeFile(std::ofstream& file)
 {
-	for (int i = 0; i < static_cast<int>( getImageData().size()); i++)
+	//file << rawData;
+
+	for (int i = 0; i < static_cast<int>(getImageData().size()); i++)
 	{
-		std::cout << "WRITING TO FILE";
 		file << getImageData().at(i).pixelData[0];
 		file << getImageData().at(i).pixelData[1];
 		file << getImageData().at(i).pixelData[2];
+		//cout << i<< "w" <<endl;
 	}
 }
 
@@ -50,11 +64,8 @@ void Image::writePixelData(std::ofstream & file, RGB pixel)
 bool Image::validHeader(string fileName)
 {
 	std::ifstream file;
-	file.open(fileName);
+	file.open(fileName, std::ios::in|ios::binary);
 	string magicNumber;
-	string cmnt;
-	string cmnt1;
-	string cmnt2;
 	size_int width;
 	size_int height;
 	int maxColVal;
@@ -68,11 +79,11 @@ bool Image::validHeader(string fileName)
 	if (isValidFormat && hasValidSize && hasValidBitDepth)
 	{
 		setHeaderInfo(magicNumber, width, height, maxColVal);
-		std::cout << "Valid file";
+		std::cout << "Valid file" <<endl;
 		return true;
 	}
 	file.close();
-	std::cout << magicNumber << std::endl << width << std::endl << height << std::endl << maxColVal << std::endl;
+	//std::cout << magicNumber << std::endl << width << std::endl << height << std::endl << maxColVal << std::endl;
 	return false;
 }
 
@@ -87,37 +98,57 @@ void Image::setHeaderInfo(string magicNumber, size_int width, size_int height, i
 void Image::readPixelData(string  fileName)
 {
 	std::ifstream file;
-	file.open(fileName);	
-	string sacrificial;
-	string imageData;
-	file >> sacrificial >> sacrificial >> sacrificial >> sacrificial;
-	char c;
+	file.open(fileName, ios::in | ios::ate | ios::binary);	
+	
+	streampos size = file.tellg();
+	char* memBlock;
 
-	while (true) {
-		c = file.get();
-		if (!file){
-		break;
-		}
-		imageData.push_back(c);
-		std::cout << c;
-		
-	}
-
-	setRawImageData(imageData);
-	file.close();
-
-	setRawImageData(imageData);
-
-	std::cout << getRawImageData().length() << std::endl;
-	std::cout << getHeight()*getWidth() << std::endl;
-
-	for (unsigned long i = 1; i < getRawImageData().size()-3; i+=3)
+	if(file.is_open())
 	{
-		std::cout << "PLUS 0" << i << std::endl;
+		size = file.tellg();
+		cout << size << endl;
+		memBlock = new char[size];
+		file.seekg(0, ios::beg);
+		file.read(memBlock, size);
+
+		int spaces = 0;
+		streampos headerLength =0;
 		
-	RGB currentPixel(getRawImageData().at(i), getRawImageData().at(i+2), getRawImageData().at(i+3));
+
+		for (int i =0; i< size; i ++)
+		{
+			if(spaces <4)
+			{
+				if (memBlock[i] == '\n')
+				{
+					spaces++;
+				}
+				headerLength += 1;
+			}
+			else
+			{
+				break;
+			}
+		}
+		cout << spaces << "SPACES" << endl;
 		
-	addPixel(currentPixel);		
-	}
-	std::cout << getImageData().size() << "SIZE" << std::endl;
+		cout << size-headerLength << endl;
+		rawData = memBlock;
+		image_data.reserve(size);
+		cout << memBlock[14] << "MEM BLOCK 14" << endl;
+		unsigned long imageLen = size - headerLength;
+		unsigned long modifier = (static_cast<unsigned long>(size) - imageLen);
+		cout << imageLen << "image_len" << endl;
+		cout << "modifier" << (size -= imageLen) << endl;
+		int cycles = 0;
+		for (unsigned long i = headerLength; i < (imageLen+(modifier)); i += 3)
+		{
+			//std::cout << i << "r" << std::endl;
+			cycles++;
+			RGB currentPixel(memBlock[i], memBlock[i+1], memBlock[i+2]);
+			addPixel(currentPixel);
+		}
+		cout << image_data.size() << "SIZE"<< endl;
+		cout << cycles << "CYCLES"<< endl;
+	}	
 }

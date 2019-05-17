@@ -17,15 +17,15 @@ class Image
 	int max_color_val;
 
 	vector<RGB> image_data;
-	string rawImageData;
-
+	vector<char> rawImageData;
+	char* rawData;
 	string magicNumber;
 	string file_name;
 
 
 public:
 	std::ofstream file;
-
+	~Image();
 	Image(size_int width, size_int height, int maxColVal, string fileName, string magicNumber) :
 		width(width), height(height), max_color_val(maxColVal), magicNumber(magicNumber)
 	{
@@ -41,17 +41,19 @@ public:
 	void setHeight(size_int _height) { height = _height; }
 	void setWidth(size_int _width) { width = _width; }
 	void setBitDepth(int _depth) { max_color_val = _depth; }
-	void setRawImageData(string rawData) { rawImageData = rawData; }
+	void setRawImageData(char* _rawData);
 	void addPixel(RGB pixel) { image_data.push_back(pixel); }
 	void writeFile(std::ofstream& file);
 	string getFileName() { return file_name; }
 	string getMagicNumber() { return magicNumber; }
 
+	void setImageData(vector<RGB> newData) { image_data = newData; }
+
 	size_int getHeight() { return height; }
 	size_int getWidth() { return  width; }
 
 	vector<RGB> getImageData() { return image_data; }
-	string getRawImageData() { return rawImageData; }
+	vector<char> getRawImageData() { return rawImageData; }
 
 	int getColorValue() { return max_color_val; }
 
