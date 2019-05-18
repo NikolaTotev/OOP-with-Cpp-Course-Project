@@ -26,16 +26,15 @@ void Image::setRawImageData(char * _rawData)
 	rawData = _rawData;
 }
 
-void Image::writeFile(std::ofstream& file)
+void Image::writeFile(string fileName)
 {
 	cout << "Writing to file..." << endl;
+	ofstream file;
+	file.open(fileName, ios::binary | ios::out);
+	writeHeader(file, magicNumber, height, width, max_color_val);
 	file << rawData;
+	file.close();
 
-	for (int i = 0; i < static_cast<int>(getImageData().size()); i++)
-	{
-
-		//file << getImageData().at(i);
-	}
 }
 
 void Image::writeHeader(std::ofstream & file, string magicNumber, size_int height, size_int width, int max_col_val)
@@ -92,6 +91,35 @@ void Image::setHeaderInfo(string magicNumber, size_int width, size_int height, i
 	setWidth(width);
 	setHeight(height);
 	setBitDepth(bitDepth);
+}
+
+void Image::convertToGrayScale()
+{	
+	cout << "CONVERTING TO GRAYSCALE" << endl;
+	for (int i = 0; i < getImageData().size(); ++i)	{
+	
+		cout << i << endl;
+		image_data[i].grayscale_average();
+	}
+	rewriteRawData();
+}
+
+void Image::rewriteRawData()
+{
+	cout << strlen(rawData)<< "OLD RAW SIZE" << endl;
+	delete[] rawData;
+	rawData = new  char[getImageData().size() * 3];
+	int rawDataIndex = 0;
+	for (int i = 0; i < getImageData().size(); i++)
+	{
+		cout << i << endl;	
+		rawData[rawDataIndex] = getImageData().at(i).pixelData[0];
+		rawData[rawDataIndex+1] = getImageData().at(i).pixelData[1];
+		rawData[rawDataIndex+2] = getImageData().at(i).pixelData[2];
+		rawDataIndex += 3;
+	 }
+	cout << strlen(rawData) << "NEW RAW SIZE" << endl;
+
 }
 
 void Image::readPixelData(string  fileName)
@@ -163,6 +191,7 @@ void Image::readPixelData(string  fileName)
 		}
 		cout << image_data.size() << "SIZE" << endl;
 		cout << cycles << "CYCLES" << endl;
+		file.close();
 	}
 }
 

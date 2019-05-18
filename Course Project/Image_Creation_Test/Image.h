@@ -42,7 +42,7 @@ public:
 	void setBitDepth(int _depth) { max_color_val = _depth; }
 	void setRawImageData(char* _rawData);
 	void addPixel(RGB pixel) { image_data.push_back(pixel); }
-	void writeFile(std::ofstream& file);
+	void writeFile(string file);
 	string getFileName() { return file_name; }
 	string getMagicNumber() { return magicNumber; }
 
@@ -64,4 +64,7 @@ public:
 	void readPixelData(string file);
 
 	void setHeaderInfo(string magicNumber, size_int width, size_int height, int bitDepth);
+
+	void convertToGrayScale();
+	void rewriteRawData();
 };
