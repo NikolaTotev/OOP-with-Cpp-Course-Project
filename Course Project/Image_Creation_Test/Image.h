@@ -17,7 +17,6 @@ class Image
 	int max_color_val;
 
 	vector<RGB> image_data;
-	vector<char> rawImageData;
 	char* rawData;
 	string magicNumber;
 	string file_name;
@@ -53,7 +52,7 @@ public:
 	size_int getWidth() { return  width; }
 
 	vector<RGB> getImageData() { return image_data; }
-	vector<char> getRawImageData() { return rawImageData; }
+	char* getRawImageData() { return rawData; }
 
 	int getColorValue() { return max_color_val; }
 

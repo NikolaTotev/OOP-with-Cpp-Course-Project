@@ -1,7 +1,15 @@
-﻿  Image_Creation_Test.cpp
+﻿  Image.cpp
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\rgb.h(17): warning C4244: '*=': conversion from 'double' to 'unsigned char', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\rgb.h(18): warning C4244: '*=': conversion from 'double' to 'unsigned char', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\rgb.h(19): warning C4244: '*=': conversion from 'double' to 'unsigned char', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(111): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(138): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(140): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(142): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(154): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
   Generating code
-  1 of 364 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  2 of 341 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Image_Creation_Test.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Release\Image_Creation_Test.exe
