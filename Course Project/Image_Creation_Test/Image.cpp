@@ -1,6 +1,7 @@
 #include "Image.h"
 #include <string>
 #include <iostream>
+#include <array>
 using namespace std;
 
 
@@ -129,17 +130,67 @@ void Image::convertToMonochrome()
 
 void Image::generateHistogram()
 {
-	generatePercentages();
-	cout<<endl << "Reds at 255 are " << getRed_percentage().at(255)<< endl;
+	//generatePercentages();
+	vector<vector<RGB>> histogramData;
+	histogramData.reserve(256);
+	
+	vector<RGB> backgroundCol;
+	backgroundCol.reserve(100);
+	for (int i = 0; i < 100; ++i)
+	{
+		backgroundCol.push_back(RGB(15, 15, 15,1));
+	}
+	for (int y = 0; y < 256; ++y)
+	{
+		histogramData.push_back(backgroundCol);	
+	}
+
+	/*for (int i = 0; i < 256; ++i)
+	{
+		histogramData[i][99] = RGB(255, 186, 1, 1);
+	}
+*/
+	for (int i = 0; i < 100; ++i)
+	{
+		histogramData[0][0] = RGB(255, 186, 1, 1);
+	}
+
+	histogramData[0][1] = RGB(255, 1, 1, 1);
+
+	string mainPath = "D:\\Documents\\Learning\\Object Oriented Programming\\Course Project\\OOP-Course-Project-S1\\saves\\Histogram_Test.ppm";
+
+	char* rawData = new char[100 * 256*3];
+	//char** rawD = new char[256][100];
+	int rawIndex = 0;
+	ofstream file;
+	file.open(mainPath, ios::binary | ios::out);
+	file << "P6" << endl;
+	file << 255 << endl << 100 << endl;
+	file << "255" << endl;
+	for (int y = 0; y < 100; ++y)
+	{
+		for (int x = 0; x < 256; ++x)
+		{/*
+			rawData[rawIndex] = histogramData[x][y].pixelData[0];
+			rawData[rawIndex+1] = histogramData[x][y].pixelData[1];
+			rawData[rawIndex+2] = histogramData[x][y].pixelData[2];
+			rawIndex+=3;*/
+			file << histogramData[x][y].pixelData[0] << histogramData[x][y].pixelData[1]<< histogramData[x][y].pixelData[2];
+
+		}
+	}
+	
+	file << rawData;
+	file.close();
 }
 
 void Image::generatePercentages()
 {
 	for (int i = 0; i < 256; ++i)
 	{
-		p_red.at(i) = ((height*width) / reds.at(i)) * 100;
-		p_green.at(i) = ((height*width) / greens.at(i)) * 100;
-		p_blue.at(i) = ((height*width) / blues.at(i)) * 100;
+		p_red.at(i) = (reds.at(i) /(height*width) ) * 100;
+		p_green.at(i) = (greens.at(i)/ (height*width)) * 100;
+		p_blue.at(i) = (blues.at(i)/(height*width)) * 100;
 	}
 }
 

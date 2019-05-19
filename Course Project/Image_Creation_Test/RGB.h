@@ -5,6 +5,13 @@
 class RGB
 {
 public:
+	RGB()
+	{
+		pixelData[0] = 1;
+		pixelData[1] = 1;
+		pixelData[2] = 1;
+		avrg_value = 1;
+	}
 	RGB(unsigned char r, unsigned char  g, unsigned char b, int avrg)
 	{
 		pixelData[0] = r;
@@ -52,5 +59,15 @@ public:
 	bool operator ==(const RGB& rhs)
 	{
 		return (pixelData[0] == rhs.pixelData[0] && pixelData[1] == rhs.pixelData[1] && pixelData[2] == rhs.pixelData[2]);
+	}
+	RGB& operator =(const RGB& rhs)
+	{
+		if(this!= &rhs)
+		{
+			pixelData[0] = rhs.pixelData[0];
+			pixelData[1] = rhs.pixelData[1];
+			pixelData[2] = rhs.pixelData[2];
+		}
+		return  *this;
 	}
 };

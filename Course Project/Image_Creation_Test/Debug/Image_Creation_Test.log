@@ -1,5 +1,10 @@
-﻿  Image_Creation_Test.cpp
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\rgb.h(17): warning C4244: '*=': conversion from 'double' to 'unsigned char', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\rgb.h(18): warning C4244: '*=': conversion from 'double' to 'unsigned char', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\rgb.h(19): warning C4244: '*=': conversion from 'double' to 'unsigned char', possible loss of data
+﻿  Image.cpp
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(112): warning C4018: '<': signed/unsigned mismatch
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(123): warning C4018: '<': signed/unsigned mismatch
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(203): warning C4018: '<': signed/unsigned mismatch
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(228): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(254): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(256): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(258): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(267): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
   Image_Creation_Test.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Debug\Image_Creation_Test.exe
