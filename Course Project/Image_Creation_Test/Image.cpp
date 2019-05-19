@@ -6,7 +6,7 @@ using namespace std;
 
 Image::~Image()
 {
-	//delete[] rawData;
+	delete[] rawData;
 }
 
 Image::Image(string fileName) :file_name(fileName)
@@ -19,6 +19,7 @@ Image::Image(string fileName) :file_name(fileName)
 	{
 		setHeaderInfo("P6", defaultWidth, defaultHeight, default_ppm_depth);
 	}
+	rawData = nullptr;
 }
 
 void Image::setRawImageData(char * _rawData)
@@ -62,7 +63,7 @@ void Image::writePixelData(std::ofstream & file, RGB pixel)
 bool Image::validHeader(string fileName)
 {
 	std::ifstream file;
-	file.open(fileName, std::ios::in|ios::binary);
+	file.open(fileName, std::ios::in | ios::binary);
 	string magicNumber;
 	size_int width;
 	size_int height;
@@ -77,7 +78,7 @@ bool Image::validHeader(string fileName)
 	if (isValidFormat && hasValidSize && hasValidBitDepth)
 	{
 		setHeaderInfo(magicNumber, width, height, maxColVal);
-		std::cout << "Valid file" <<endl;
+		std::cout << "Valid file" << endl;
 		return true;
 	}
 	file.close();
@@ -94,41 +95,51 @@ void Image::setHeaderInfo(string magicNumber, size_int width, size_int height, i
 }
 
 void Image::convertToGrayScale()
-{	
-	cout << "CONVERTING TO GRAYSCALE" << endl;
-	for (int i = 0; i < getImageData().size(); ++i)	{
-	
+{
+	cout << "Converting to graysacle, please wait..." << endl;
+	for (int i = 0; i < getImageData().size(); ++i) {
+
 		cout << i << endl;
 		image_data[i].grayscale_average();
 	}
 	rewriteRawData();
 }
 
+void Image::convertToMonochrome()
+{
+	cout << "Converting to monochrome, please wait..." << endl;
+	for (int i = 0; i < getImageData().size(); ++i) {
+
+		cout << i << endl;
+		image_data[i].monochrome();
+	}
+	rewriteRawData();
+}
+
 void Image::rewriteRawData()
 {
-	cout << strlen(rawData)<< "OLD RAW SIZE" << endl;
+	//cout << strlen(rawData) << "OLD RAW SIZE" << endl;
 	delete[] rawData;
 	rawData = new  char[getImageData().size() * 3];
 	int rawDataIndex = 0;
 	for (int i = 0; i < getImageData().size(); i++)
 	{
-		cout << i << endl;	
+		cout << i << endl;
 		rawData[rawDataIndex] = getImageData().at(i).pixelData[0];
-		rawData[rawDataIndex+1] = getImageData().at(i).pixelData[1];
-		rawData[rawDataIndex+2] = getImageData().at(i).pixelData[2];
+		rawData[rawDataIndex + 1] = getImageData().at(i).pixelData[1];
+		rawData[rawDataIndex + 2] = getImageData().at(i).pixelData[2];
 		rawDataIndex += 3;
-	 }
+	}
 	cout << strlen(rawData) << "NEW RAW SIZE" << endl;
 
 }
 
 void Image::readPixelData(string  fileName)
 {
-	
 	cout << "Reading file..." << endl;
 	std::ifstream file;
-	file.open(fileName, ios::in | ios::ate | ios::binary);	
-	
+	file.open(fileName, ios::in | ios::ate | ios::binary);
+
 	streampos size = file.tellg();
 	char* memBlock;
 
@@ -159,7 +170,6 @@ void Image::readPixelData(string  fileName)
 				break;
 			}
 		}
-		cout << spaces << "SPACES" << endl;
 
 		cout << size - headerLength << endl;
 		rawData = memBlock;
@@ -171,22 +181,26 @@ void Image::readPixelData(string  fileName)
 		cout << imageLen << "image_len" << endl;
 		cout << "modifier" << (size -= imageLen) << endl;
 		int cycles = 0;
+
 		rawData = new char[imageSize];
 		int rawDataIndex = 0;
 
-		/*for (int i = headerLength; i < imageSize; ++i)
-		{
-			rawData[rawDataIndex] = memBlock[i];
-			rawDataIndex++;
-		}*/
+		int avrg;
 		for (unsigned long i = headerLength; i < imageSize; i += 3)
-		{			
-			rawData[rawDataIndex] = memBlock[i];
-			rawData[rawDataIndex+1] = memBlock[i+1];
-			rawData[rawDataIndex + 2] = memBlock[i + 2];
-			rawDataIndex+=3;
-			RGB currentPixel(memBlock[i], memBlock[i + 1], memBlock[i + 2]);
+		{
+			unsigned char R = memBlock[i];
+			unsigned char G = memBlock[i+1];
+			unsigned char B = memBlock[i+2];
+			
+			rawData[rawDataIndex] = R;
+			rawData[rawDataIndex + 1] = G;
+			rawData[rawDataIndex + 2] = B;
+			
+			avrg = (R + G + B) / 3;
+			RGB currentPixel(R, G, B, avrg);
 			addPixel(currentPixel);
+			rawDataIndex += 3;
+			
 			cycles++;
 		}
 		cout << image_data.size() << "SIZE" << endl;

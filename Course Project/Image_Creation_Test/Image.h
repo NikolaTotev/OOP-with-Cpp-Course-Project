@@ -29,6 +29,7 @@ public:
 		width(width), height(height), max_color_val(maxColVal), magicNumber(magicNumber)
 	{
 		setFileName(fileName);
+		rawData = nullptr;
 	}
 
 	Image(string fileName);
@@ -66,5 +67,6 @@ public:
 	void setHeaderInfo(string magicNumber, size_int width, size_int height, int bitDepth);
 
 	void convertToGrayScale();
+	void convertToMonochrome();
 	void rewriteRawData();
 };

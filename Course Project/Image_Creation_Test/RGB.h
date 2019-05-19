@@ -5,44 +5,42 @@
 class RGB
 {
 public:
-	RGB(unsigned char r, unsigned char  g, unsigned char b)
+	RGB(unsigned char r, unsigned char  g, unsigned char b, int avrg)
 	{
 		pixelData[0] = r;
 		pixelData[1] = g;
 		pixelData[2] = b;
+		avrg_value = avrg_value;
 	}
 	unsigned char pixelData[3];
-
-	void graysacle_weighted()
-	{
-		int newRed = pixelData[0] * 0.3;
-		int newGreen = pixelData[1] * 0.59;
-		int newBlue = pixelData[2] * 0.11;
-
-		pixelData[0] = newRed;
-		pixelData[1] = newGreen;
-		pixelData[2] = newBlue;
-	}
+	int avrg_value;
 
 	void grayscale_average()
 	{
-		/*	std::cout << "BEFORE" << std::endl;
-
-			std::cout << pixelData[0] << std::endl;
-			std::cout << pixelData[1] << std::endl;
-			std::cout << pixelData[2] << std::endl;*/
-
 		int avrg = (pixelData[0] + pixelData[1] + pixelData[2]) / 3;
 
 		pixelData[0] = avrg;
 		pixelData[1] = avrg;
 		pixelData[2] = avrg;
+	}
 
-		/*std::cout << "AFTER" << std::endl;
-		std::cout << pixelData[0] << std::endl;
-		std::cout << pixelData[1] << std::endl;
-		std::cout << pixelData[2] << std::endl;
-*/
+	void monochrome()
+	{
+		int avrg = (pixelData[0] + pixelData[1] + pixelData[2]) / 3;
+		int limit = 128;
+		int zero = 0;
+		int twoFF = 255;
+		if(avrg < 128)
+		{
+			pixelData[0] = 1;
+			pixelData[1] = 1;
+			pixelData[2] = 1;
+			return;
+		}
+
+		pixelData[0] = 255;
+		pixelData[1] = 255;
+		pixelData[2] = 255;
 	}
 
 	const friend std::ostream& operator << (std::ostream& os, const RGB out)
