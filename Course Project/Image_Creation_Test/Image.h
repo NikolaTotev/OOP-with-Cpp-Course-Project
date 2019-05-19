@@ -21,7 +21,13 @@ class Image
 	string magicNumber;
 	string file_name;
 
+	vector<int> reds;
+	vector<int> blues;
+	vector<int> greens;
 
+	vector<int> p_red;
+	vector<int> p_green;
+	vector<int> p_blue;
 public:
 	std::ofstream file;
 	~Image();
@@ -30,13 +36,27 @@ public:
 	{
 		setFileName(fileName);
 		rawData = nullptr;
+		reds.reserve(256);
+		greens.reserve(256);
+		blues.reserve(256);
+
+		for (int i = 0; i < 256; ++i)
+		{
+			reds.push_back(0);
+			greens.push_back(0);
+			blues.push_back(0);
+
+			p_red.push_back(0);
+			p_green.push_back(0);
+			p_blue.push_back(0);
+		}
 	}
 
 	Image(string fileName);
 
 	//TODO implement option to add any extention based on input parameter;
-	void setFileName(string new_name) { file_name = new_name+".ppm";}
-	
+	void setFileName(string new_name) { file_name = new_name + ".ppm"; }
+
 	void setMagicNumber(string _magicNumber) { magicNumber = _magicNumber; }
 	void setHeight(size_int _height) { height = _height; }
 	void setWidth(size_int _width) { width = _width; }
@@ -55,6 +75,14 @@ public:
 	vector<RGB> getImageData() { return image_data; }
 	char* getRawImageData() { return rawData; }
 
+	vector<int> getReds() const { return reds; }
+	vector<int> getBlues() const { return blues; }
+	vector<int> getGreens() const { return greens; }
+
+	vector<int> getRed_percentage() const { return p_red; }
+	vector<int> getBlue_percentage() const { return p_blue; }
+	vector<int> getGreen_percentage() const { return p_green; }
+
 	int getColorValue() { return max_color_val; }
 
 
@@ -68,5 +96,9 @@ public:
 
 	void convertToGrayScale();
 	void convertToMonochrome();
+
+	void generateHistogram();
+	void generatePercentages();
+
 	void rewriteRawData();
 };

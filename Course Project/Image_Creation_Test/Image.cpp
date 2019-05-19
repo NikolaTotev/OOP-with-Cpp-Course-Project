@@ -11,6 +11,17 @@ Image::~Image()
 
 Image::Image(string fileName) :file_name(fileName)
 {
+	rawData = nullptr;
+	for (int i = 0; i < 256; ++i)
+	{
+		reds.push_back(0);
+		greens.push_back(0);
+		blues.push_back(0);
+
+		p_red.push_back(0);
+		p_green.push_back(0);
+		p_blue.push_back(0);
+	}
 	if (validHeader(fileName))
 	{
 		readPixelData(fileName);
@@ -19,7 +30,7 @@ Image::Image(string fileName) :file_name(fileName)
 	{
 		setHeaderInfo("P6", defaultWidth, defaultHeight, default_ppm_depth);
 	}
-	rawData = nullptr;
+	
 }
 
 void Image::setRawImageData(char * _rawData)
@@ -116,6 +127,22 @@ void Image::convertToMonochrome()
 	rewriteRawData();
 }
 
+void Image::generateHistogram()
+{
+	generatePercentages();
+	cout<<endl << "Reds at 255 are " << getRed_percentage().at(255)<< endl;
+}
+
+void Image::generatePercentages()
+{
+	for (int i = 0; i < 256; ++i)
+	{
+		p_red.at(i) = ((height*width) / reds.at(i)) * 100;
+		p_green.at(i) = ((height*width) / greens.at(i)) * 100;
+		p_blue.at(i) = ((height*width) / blues.at(i)) * 100;
+	}
+}
+
 void Image::rewriteRawData()
 {
 	//cout << strlen(rawData) << "OLD RAW SIZE" << endl;
@@ -195,6 +222,10 @@ void Image::readPixelData(string  fileName)
 			rawData[rawDataIndex] = R;
 			rawData[rawDataIndex + 1] = G;
 			rawData[rawDataIndex + 2] = B;
+
+			reds.at(R) += 1;
+			blues.at(B) += 1;
+			greens.at(B) += 1;
 			
 			avrg = (R + G + B) / 3;
 			RGB currentPixel(R, G, B, avrg);

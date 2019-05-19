@@ -1,15 +1,15 @@
 ﻿  Image.cpp
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(100): warning C4018: '<': signed/unsigned mismatch
 d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(111): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(125): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(150): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(176): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(178): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(180): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(189): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(122): warning C4018: '<': signed/unsigned mismatch
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(152): warning C4018: '<': signed/unsigned mismatch
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(177): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(203): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(205): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(207): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(216): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
   Image_Creation_Test.cpp
   Generating code
-  3 of 362 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
+  3 of 437 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
