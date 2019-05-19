@@ -145,14 +145,14 @@ void Image::generateHistogram()
 		histogramData.push_back(backgroundCol);	
 	}
 
-	/*for (int i = 0; i < 256; ++i)
+	for (int i = 0; i < 256; ++i)
 	{
 		histogramData[i][99] = RGB(255, 186, 1, 1);
 	}
-*/
+
 	for (int i = 0; i < 100; ++i)
 	{
-		histogramData[0][0] = RGB(255, 186, 1, 1);
+		histogramData[0][i] = RGB(255, 186, 1, 1);
 	}
 
 	histogramData[0][1] = RGB(255, 1, 1, 1);
@@ -165,7 +165,7 @@ void Image::generateHistogram()
 	ofstream file;
 	file.open(mainPath, ios::binary | ios::out);
 	file << "P6" << endl;
-	file << 255 << endl << 100 << endl;
+	file << 256 << endl << 100 << endl;
 	file << "255" << endl;
 	for (int y = 0; y < 100; ++y)
 	{
