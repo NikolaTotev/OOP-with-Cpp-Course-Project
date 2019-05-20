@@ -24,7 +24,7 @@
     <ClInclude Include="FileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
+    <ClInclude Include="PROTO_Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClCompile Include="Image_Creation_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
+    <ClCompile Include="PROTO_Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
