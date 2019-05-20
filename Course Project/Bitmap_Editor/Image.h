@@ -40,7 +40,7 @@ private:
 	void update_raw_data();
 	const void write_to_file(std::string path);
 	void copy(const Image& rhs);
-	void showProgress(int fullTask, int completed, int section);
+	void showProgress(int fullTask, int completed);
 public:
 
 	Image(std::string fileName);

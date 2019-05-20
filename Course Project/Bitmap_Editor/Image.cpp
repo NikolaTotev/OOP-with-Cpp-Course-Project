@@ -129,6 +129,7 @@ void Image::read_image(std::string fileName)
 			Pixel pixel(R, G, B, avrg);
 			image_data.push_back(pixel);
 			rawDataIndex += 3;
+			showProgress(i, size);
 
 		}
 		file.close();
@@ -144,6 +145,7 @@ void Image::update_raw_data()
 	int rawDataIndex = 0;
 	for (int i = 0; i <  taskSize; i++)
 	{
+		showProgress(i, taskSize);
 		raw_data[rawDataIndex] = getImageData().at(i).getPixel()[0];
 		raw_data[rawDataIndex + 1] = getImageData().at(i).getPixel()[1];
 		raw_data[rawDataIndex + 2] = getImageData().at(i).getPixel()[2];
@@ -173,18 +175,14 @@ void Image::copy(const Image& rhs)
 	image_data = rhs.image_data;
 }
 
-void Image::showProgress(int completed, int fullTask, int section)
+void Image::showProgress(int completed, int fullTask)
 {
 	bool printed = false;
 	int percentComplete = (((float)completed / (float)fullTask))*100;
+	std::cout << "\r" << percentComplete << "%";
 	if (percentComplete % 10 == 0 && !printed)
-	{
-		std::cout << "\r";
-		std::cout << percentComplete<<"%"<< " ";
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-			
-			printed = true;
+	{		
+	printed = true;
 	}
 }
 
@@ -211,7 +209,8 @@ void Image::toGrayscale()
 	std::cout << "Converting to graysacle, please wait..." << std::endl;
 	Image grayscale_image = *this;
 	int taskSize = grayscale_image.getImageData().size();
-	for (int i = 0; i < taskSize; ++i) {		
+	for (int i = 0; i < taskSize; ++i) {	
+		showProgress(i, taskSize);
 		grayscale_image.image_data[i].toGrayscale();
 	}
 	grayscale_image.update_raw_data();
