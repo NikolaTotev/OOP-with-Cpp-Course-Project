@@ -15,6 +15,7 @@ public:
 
 	void setPixel(int r, int g, int b);
 	void setPixel(int r, int g, int b, int avrg);
+	const unsigned char* getPixel() { return pixelData; }
 
 	int getAverage() { return avrg_value; }
 	

@@ -87,9 +87,9 @@ public:
 
 
 	void writeHeader(std::ofstream& file, string magicNumber, size_int height, size_int width, int max_col_val);
-	void writePixelData(std::ofstream& file, RGB pixel);
+	//void writePixelData(std::ofstream& file, RGB pixel);
 
-	bool validHeader(string file);
+	bool valid_header(string file);
 	void readPixelData(string file);
 
 	void setHeaderInfo(string magicNumber, size_int width, size_int height, int bitDepth);

@@ -23,7 +23,7 @@ Image::Image(string fileName) :file_name(fileName)
 		p_green.push_back(0);
 		p_blue.push_back(0);
 	}
-	if (validHeader(fileName))
+	if (valid_header(fileName))
 	{
 		readPixelData(fileName);
 	}
@@ -38,7 +38,6 @@ void Image::setRawImageData(char * _rawData)
 {
 	rawData = _rawData;
 }
-
 
 void Image::writeFile(string fileName)
 {
@@ -58,22 +57,22 @@ void Image::writeHeader(std::ofstream & file, string magicNumber, size_int heigh
 	file << std::to_string(max_col_val) << std::endl;
 }
 
-void Image::writePixelData(std::ofstream & file, RGB pixel)
-{
-	for (int p = 0; p < 3; p++)
-	{
-		if (pixel.pixelData[p] == 0)
-		{
-			file << " ";
-		}
-		else
-		{
-			file << pixel.pixelData[p];
-		}
-	}
-}
+//void Image::writePixelData(std::ofstream & file, RGB pixel)
+//{
+//	for (int p = 0; p < 3; p++)
+//	{
+//		if (pixel.pixelData[p] == 0)
+//		{
+//			file << " ";
+//		}
+//		else
+//		{
+//			file << pixel.pixelData[p];
+//		}
+//	}
+//}
 
-bool Image::validHeader(string fileName)
+bool Image::valid_header(string fileName)
 {
 	std::ifstream file;
 	file.open(fileName, std::ios::in | ios::binary);
