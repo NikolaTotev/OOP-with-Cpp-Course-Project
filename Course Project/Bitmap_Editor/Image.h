@@ -8,6 +8,8 @@ class Image
 {
 public:
 	enum formats { PPM, PBM, PGM, NA };
+	enum ops { monochrome, grayscale, histogram };
+
 private:
 	const int c_default_width = 256;
 	const int c_default_height = 256;
@@ -32,6 +34,7 @@ private:
 	std::vector<float> blue_percent;
 
 	std::vector<std::thread> tasks;
+	std::vector<ops> operations;
 
 	void init_vectors_256();
 	formats determine_format(std::string fileName);
@@ -41,6 +44,7 @@ private:
 	const void write_to_file(std::string path);
 	void copy(const Image& rhs);
 	void showProgress(int fullTask, int completed);
+	void executeTasks();
 public:
 
 	Image(std::string fileName);

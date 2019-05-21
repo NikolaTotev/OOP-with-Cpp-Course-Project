@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Image_Creation_Test", "Imag
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bitmap_Editor", "Bitmap_Editor\Bitmap_Editor.vcxproj", "{1234E1E0-8059-4C22-BB00-F161D80356D5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUI_Test", "GUI_Test\GUI_Test.vcxproj", "{9E06C984-2E79-4CCB-AC99-F231C5656C17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{1234E1E0-8059-4C22-BB00-F161D80356D5}.Release|x64.Build.0 = Release|x64
 		{1234E1E0-8059-4C22-BB00-F161D80356D5}.Release|x86.ActiveCfg = Release|Win32
 		{1234E1E0-8059-4C22-BB00-F161D80356D5}.Release|x86.Build.0 = Release|Win32
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Debug|x64.ActiveCfg = Debug|x64
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Debug|x64.Build.0 = Debug|x64
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Debug|x86.Build.0 = Debug|Win32
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Release|x64.ActiveCfg = Release|x64
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Release|x64.Build.0 = Release|x64
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Release|x86.ActiveCfg = Release|Win32
+		{9E06C984-2E79-4CCB-AC99-F231C5656C17}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

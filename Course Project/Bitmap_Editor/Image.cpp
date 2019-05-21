@@ -1,7 +1,7 @@
 #include "Image.h"
 #include <iostream>
 #include <fstream>
-
+#include <thread>
 void Image::init_vectors_256()
 {
 	red_count.reserve(256);
@@ -139,16 +139,16 @@ void Image::read_image(std::string fileName)
 void Image::update_raw_data()
 {
 	std::cout << "Updating data... " << std::endl;
-	delete[] raw_data;
-	raw_data = new  char[getImageData().size() * 3];
-	int taskSize = getImageData().size();
+	//delete[] raw_data;
+	raw_data = new  char[image_data.size() * 3];
+	int taskSize = image_data.size();
 	int rawDataIndex = 0;
 	for (int i = 0; i <  taskSize; i++)
 	{
-		showProgress(i, taskSize);
-		raw_data[rawDataIndex] = getImageData().at(i).getPixel()[0];
-		raw_data[rawDataIndex + 1] = getImageData().at(i).getPixel()[1];
-		raw_data[rawDataIndex + 2] = getImageData().at(i).getPixel()[2];
+		//showProgress(i, taskSize);
+		raw_data[rawDataIndex] = image_data.at(i).getPixel()[0];
+		raw_data[rawDataIndex + 1] = image_data.at(i).getPixel()[1];
+		raw_data[rawDataIndex + 2] = image_data.at(i).getPixel()[2];
 		rawDataIndex += 3;
 	}
 }
@@ -159,8 +159,8 @@ const void Image::write_to_file(std::string path)
 	std::ofstream file;
 	file.open(path, std::ios::binary | std::ios::out);
 	file << magic_number << std::endl;
-	file << std::to_string(width) << std::endl << std::to_string(height) << std::endl;
-	file << std::to_string(bitDepth) << std::endl;
+	file << width << std::endl << height << std::endl;
+	file << bitDepth << std::endl;
 	file << raw_data;
 	file.close();
 }
@@ -186,6 +186,25 @@ void Image::showProgress(int completed, int fullTask)
 	}
 }
 
+void Image::executeTasks()
+{
+	for (int i = 0; i < operations.size(); ++i)
+	{
+		if(operations[i] == monochrome)
+		{			
+			std::thread mono_chrome(&Image::toMonochrome, this);
+			mono_chrome.join();
+			//tasks.push_back(mono_chrome);
+		}
+		if (operations[i] == grayscale)
+		{
+			std::thread gray_scale(&Image::toGrayscale, this);
+			gray_scale.join();
+			//tasks.push_back(gray_scale);
+		}
+	}
+}
+
 Image::Image(std::string fileName)
 {
 	if (valid_header(fileName))
@@ -193,6 +212,9 @@ Image::Image(std::string fileName)
 		format = determine_format(fileName);
 		init_vectors_256();
 		read_image(fileName);
+		operations.push_back(monochrome);
+		operations.push_back(grayscale);
+		//executeTasks();
 	}
 	else
 	{
@@ -210,7 +232,7 @@ void Image::toGrayscale()
 	Image grayscale_image = *this;
 	int taskSize = grayscale_image.getImageData().size();
 	for (int i = 0; i < taskSize; ++i) {	
-		showProgress(i, taskSize);
+		//showProgress(i, taskSize);
 		grayscale_image.image_data[i].toGrayscale();
 	}
 	grayscale_image.update_raw_data();
@@ -223,9 +245,9 @@ void Image::toMonochrome()
 {
 	std::cout << "Converting to monochrome, please wait..." << std::endl;
 	Image monochrome_image = *this;
-	int taskSize = monochrome_image.getImageData().size();
+	int taskSize = monochrome_image.image_data.size();
 	for (int i = 0; i < taskSize; ++i) {
-		showProgress(i, taskSize);
+		//showProgress(i, taskSize);
 		monochrome_image.image_data[i].toMonochrome();
 	}
 	monochrome_image.update_raw_data();
