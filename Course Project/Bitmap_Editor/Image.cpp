@@ -221,6 +221,17 @@ void Image::toGrayscale()
 
 void Image::toMonochrome()
 {
+	std::cout << "Converting to monochrome, please wait..." << std::endl;
+	Image monochrome_image = *this;
+	int taskSize = monochrome_image.getImageData().size();
+	for (int i = 0; i < taskSize; ++i) {
+		showProgress(i, taskSize);
+		monochrome_image.image_data[i].toMonochrome();
+	}
+	monochrome_image.update_raw_data();
+	int sub_index = strlen(monochrome_image.file_name.c_str()) - 4;
+	std::string newName = monochrome_image.file_name.substr(0, sub_index) + "_monochrome.ppm";
+	monochrome_image.write_to_file(newName);
 }
 
 Image & Image::operator=(const Image & rhs)

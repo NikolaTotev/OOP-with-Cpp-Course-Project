@@ -39,10 +39,10 @@ void Pixel::toMonochrome(int limit)
 {
 	if (getAverage() < limit)
 	{
-		setPixel(1, 1, 1);
+		setPixel(1,1, 1);
 		return;
 	}
-	setPixel(0, 0, 0);
+	setPixel(255, 255, 255);
 }
 
 bool Pixel::operator==(const Pixel & rhs)
