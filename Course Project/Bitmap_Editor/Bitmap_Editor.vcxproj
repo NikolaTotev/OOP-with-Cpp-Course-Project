@@ -151,12 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommandParser.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Pixel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bitmap_Editor.cpp" />
+    <ClCompile Include="CommandParser.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

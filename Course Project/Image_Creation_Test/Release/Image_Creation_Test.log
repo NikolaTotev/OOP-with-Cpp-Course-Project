@@ -1,15 +1,1 @@
-﻿  pch.cpp
-  Image_Creation_Test.cpp
-  PROTO_Image.cpp
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(113): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(124): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(220): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(245): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(271): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(273): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(275): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\proto_image.cpp(284): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-  Generating code
-  All 505 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  Image_Creation_Test.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Release\Image_Creation_Test.exe
+﻿

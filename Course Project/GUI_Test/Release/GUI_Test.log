@@ -1,7 +1,8 @@
 ﻿  GUI_Test.cpp
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\gui_test\gui_test.cpp(53): warning C4101: 'size': unreferenced local variable
   Generating code
-  1 of 1 functions (100.0%) were compiled.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  3 of 6 functions (50.0%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   GUI_Test.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Release\GUI_Test.exe
