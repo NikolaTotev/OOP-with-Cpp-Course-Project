@@ -15,7 +15,7 @@ public:
 	std::string command_start = "-";
 	string temp_cmnd="";
 	string temp_path="";
-	void separate_input(std::string input);
+	void separate_input(int argc, char *input[]);
 	bool valid_command();
 };
 

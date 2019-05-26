@@ -1,4 +1,2 @@
 ﻿  CommandParser.cpp
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\commandparser.cpp(20): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\commandparser.cpp(88): warning C4715: 'CommandParser::valid_command': not all control paths return a value
   Bitmap_Editor.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Debug\Bitmap_Editor.exe

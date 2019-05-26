@@ -11,78 +11,25 @@ CommandParser::~CommandParser()
 {
 }
 
-void CommandParser::separate_input(std::string input)
+void CommandParser::separate_input(int argc, char *input[])
 {
-	input += " ";
-	char space = ' ';
-	char dash = '-';
-	int dashCounter=0;
-	for (int i = 0; i < input.length(); ++i)
+	if (argc > 2)
 	{
-		switch (currentState) {
-		case seek_cmnd:
 
-			if (input.at(i) == dash)
-			{
-				dashCounter += 1;
-				if(dashCounter == 2)
+		for (int i = 1; i < argc; ++i)
+		{
+			string arg = input[i];
+			
+			if (arg.length() > 2 && arg[0] == '-' && arg.at(1) == '-')
 				{
-				currentState = read_cmd;
-				dashCounter = 0;
+					commands.push_back(arg);
+	
 				}
-			}
-			break;
-		case read_cmd:
-			if(input.at(i) != space)
-			{
-				if(input.at(i)!= dash)
-				{				
-					temp_cmnd += input.at(i);
-				}
-				
-			}
-			else
-			{
-				if(!valid_command())
+				else
 				{
-					cout << "Invalid command" << endl;
-					break;								
+					filePaths.push_back(arg);
 				}
-				currentState = read_path;
-			}
-			break;
-		case seek_path:
-			break;
-		case read_path:			
-			if (input.at(i) != space)
-			{
-				temp_path += input.at(i);
-			}
-			else
- 			{	
-				if(!temp_path.empty())
-				{
-					filePaths.push_back(temp_path);
-					temp_path = "";
-					if(i != input.size())
-					{
-						currentState = seek_cmnd;
-					}
-				}
-				
-			}
-			break;
-		default:;
+			
 		}
-	}
-}
-
-bool CommandParser::valid_command()
-{
-	if(temp_cmnd == "tmpCmd" || temp_cmnd =="other")
-	{
-		commands.push_back(temp_cmnd);
-		temp_cmnd = "";
-		return true;
 	}
 }
