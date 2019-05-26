@@ -1,16 +1,8 @@
-﻿  pch.cpp
-  Bitmap_Editor.cpp
-  CommandParser.cpp
-  Image.cpp
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(81): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(105): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(109): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(114): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(132): warning C4244: 'argument': conversion from 'std::streamoff' to 'int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(181): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(191): warning C4018: '<': signed/unsigned mismatch
-  Pixel.cpp
+﻿  CommandParser.cpp
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\commandparser.cpp(19): warning C4018: '<': signed/unsigned mismatch
   Generating code
-  All 494 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 243 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Bitmap_Editor.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Release\Bitmap_Editor.exe

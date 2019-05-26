@@ -1,9 +1,4 @@
-﻿  Image.cpp
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(81): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(105): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(109): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(114): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(132): warning C4244: 'argument': conversion from 'std::streamoff' to 'int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(181): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\image.cpp(191): warning C4018: '<': signed/unsigned mismatch
+﻿  CommandParser.cpp
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\commandparser.cpp(20): warning C4018: '<': signed/unsigned mismatch
+d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\bitmap_editor\commandparser.cpp(88): warning C4715: 'CommandParser::valid_command': not all control paths return a value
   Bitmap_Editor.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Debug\Bitmap_Editor.exe
