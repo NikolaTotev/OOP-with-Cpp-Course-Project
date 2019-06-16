@@ -1,13 +1,13 @@
-﻿  Image.cpp
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(113): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(124): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(205): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(222): warning C4018: '<': signed/unsigned mismatch
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(247): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(273): warning C4244: 'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(275): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(277): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-d:\documents\learning\object oriented programming\course project\oop-course-project-s1\course project\image_creation_test\image.cpp(286): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+﻿  pch.cpp
   Image_Creation_Test.cpp
+  PROTO_Image.cpp
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(112,20): warning C4018:  '<': signed/unsigned mismatch
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(123,20): warning C4018:  '<': signed/unsigned mismatch
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(219,20): warning C4018:  '<': signed/unsigned mismatch
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(244,23): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(270,22): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(272,26): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(274,27): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
   Generating Code...
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(283,24): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
   Image_Creation_Test.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Debug\Image_Creation_Test.exe

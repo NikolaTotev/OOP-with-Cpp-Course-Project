@@ -10,7 +10,7 @@ class CommandParser
 public:
 	CommandParser();
 	~CommandParser();
-	std::vector<std::string> commands;
+	std::vector<std::string> raw_commands;
 	std::vector<std::string> filePaths;
 	std::string command_start = "-";
 	string temp_cmnd="";

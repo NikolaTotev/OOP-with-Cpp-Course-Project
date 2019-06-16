@@ -22,7 +22,7 @@ void CommandParser::separate_input(int argc, char *input[])
 			
 			if (arg.length() > 2 && arg[0] == '-' && arg.at(1) == '-')
 				{
-					commands.push_back(arg);
+					raw_commands.push_back(arg);
 	
 				}
 				else

@@ -40,7 +40,7 @@ private:
 	formats determine_format(std::string fileName);
 	bool valid_header(std::string fileName);
 	void read_image(std::string fileName);
-	void update_raw_data();
+	void update_raw_data(formats format);
 	const void write_to_file(std::string path);
 	void copy(const Image& rhs);
 	void showProgress(int fullTask, int completed);

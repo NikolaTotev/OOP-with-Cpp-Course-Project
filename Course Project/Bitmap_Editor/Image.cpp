@@ -129,27 +129,47 @@ void Image::read_image(std::string fileName)
 			Pixel pixel(R, G, B, avrg);
 			image_data.push_back(pixel);
 			rawDataIndex += 3;
-			showProgress(i, size);
-
+			//showProgress(i, size);
 		}
 		file.close();
 	}
 }
 
-void Image::update_raw_data()
+void Image::update_raw_data(formats format)
 {
 	std::cout << "Updating data... " << std::endl;
 	//delete[] raw_data;
-	raw_data = new  char[image_data.size() * 3];
+	switch (format) {
+	case PPM:
+		raw_data = new  char[image_data.size() * 3];
+		break;
+	case PBM:
+		raw_data = new  char[image_data.size()*3];
+		break;
+	case PGM:
+		raw_data = new  char[image_data.size()];
+		break;
+	case NA:
+		break;
+	default:
+		return;
+	}
+
 	int taskSize = image_data.size();
 	int rawDataIndex = 0;
-	for (int i = 0; i <  taskSize; i++)
+	for (int i = 0; i < taskSize; i++)
 	{
-		//showProgress(i, taskSize);
 		raw_data[rawDataIndex] = image_data.at(i).getPixel()[0];
-		raw_data[rawDataIndex + 1] = image_data.at(i).getPixel()[1];
-		raw_data[rawDataIndex + 2] = image_data.at(i).getPixel()[2];
-		rawDataIndex += 3;
+		if (format == PPM||format == PBM)
+		{
+			raw_data[rawDataIndex + 1] = image_data.at(i).getPixel()[1];
+			raw_data[rawDataIndex + 2] = image_data.at(i).getPixel()[2];
+			rawDataIndex += 3;
+		}
+		else
+		{
+			rawDataIndex += 1;
+		}		
 	}
 }
 
@@ -161,7 +181,7 @@ const void Image::write_to_file(std::string path)
 	file << magic_number << std::endl;
 	file << width << std::endl << height << std::endl;
 	file << bitDepth << std::endl;
-	file << raw_data;
+	file.write(raw_data, strlen(raw_data));
 	file.close();
 }
 
@@ -178,11 +198,11 @@ void Image::copy(const Image& rhs)
 void Image::showProgress(int completed, int fullTask)
 {
 	bool printed = false;
-	int percentComplete = (((float)completed / (float)fullTask))*100;
+	int percentComplete = (((float)completed / (float)fullTask)) * 100;
 	std::cout << "\r" << percentComplete << "%";
 	if (percentComplete % 10 == 0 && !printed)
-	{		
-	printed = true;
+	{
+		printed = true;
 	}
 }
 
@@ -190,17 +210,15 @@ void Image::executeTasks()
 {
 	for (int i = 0; i < operations.size(); ++i)
 	{
-		if(operations[i] == monochrome)
-		{			
+		if (operations[i] == monochrome)
+		{
 			std::thread mono_chrome(&Image::toMonochrome, this);
 			mono_chrome.join();
-			//tasks.push_back(mono_chrome);
 		}
 		if (operations[i] == grayscale)
 		{
 			std::thread gray_scale(&Image::toGrayscale, this);
 			gray_scale.join();
-			//tasks.push_back(gray_scale);
 		}
 	}
 }
@@ -228,17 +246,22 @@ Image::~Image()
 
 void Image::toGrayscale()
 {
-	std::cout << "Converting to graysacle, please wait..." << std::endl;
-	Image grayscale_image = *this;
-	int taskSize = grayscale_image.getImageData().size();
-	for (int i = 0; i < taskSize; ++i) {	
-		//showProgress(i, taskSize);
-		grayscale_image.image_data[i].toGrayscale();
+	if (format != PGM && format != PBM)
+	{
+		std::cout << "Converting to graysacle, please wait..." << std::endl;
+		Image grayscale_image = *this;
+		int taskSize = grayscale_image.getImageData().size();
+		for (int i = 0; i < taskSize; ++i) {
+			grayscale_image.image_data[i].toGrayscale();
+		}
+		grayscale_image.format = PGM;
+		grayscale_image.update_raw_data(grayscale_image.format);
+		int sub_index = strlen(grayscale_image.file_name.c_str()) - 4;
+		std::string newName = grayscale_image.file_name.substr(0, sub_index) + "_grayscale.pgm";
+		grayscale_image.setMagicNumber("P5");
+		grayscale_image.write_to_file(newName);
 	}
-	grayscale_image.update_raw_data();
-	int sub_index = strlen(grayscale_image.file_name.c_str()) - 4;
-	std::string newName = grayscale_image.file_name.substr(0, sub_index)+"_grayscale.ppm";
-	grayscale_image.write_to_file(newName);
+
 }
 
 void Image::toMonochrome()
@@ -246,17 +269,19 @@ void Image::toMonochrome()
 	std::cout << "Converting to monochrome, please wait..." << std::endl;
 	Image monochrome_image = *this;
 	int taskSize = monochrome_image.image_data.size();
-	for (int i = 0; i < taskSize; ++i) {
-		//showProgress(i, taskSize);
+	for (int i = 0; i < taskSize; ++i)
+	{
 		monochrome_image.image_data[i].toMonochrome();
 	}
-	monochrome_image.update_raw_data();
+	monochrome_image.format = PBM;
+	monochrome_image.update_raw_data(monochrome_image.format);
 	int sub_index = strlen(monochrome_image.file_name.c_str()) - 4;
-	std::string newName = monochrome_image.file_name.substr(0, sub_index) + "_monochrome.ppm";
+	std::string newName = monochrome_image.file_name.substr(0, sub_index) + "_monochrome.pbm";
+	monochrome_image.setMagicNumber("P6");
 	monochrome_image.write_to_file(newName);
 }
 
-Image & Image::operator=(const Image & rhs)
+Image& Image::operator=(const Image& rhs)
 {
 	if (this != &rhs)
 	{
