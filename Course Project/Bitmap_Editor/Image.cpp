@@ -144,7 +144,7 @@ void Image::update_raw_data(formats format)
 		raw_data = new  char[image_data.size() * 3];
 		break;
 	case PBM:
-		raw_data = new  char[image_data.size()*3];
+		raw_data = new  char[image_data.size() * 3];
 		break;
 	case PGM:
 		raw_data = new  char[image_data.size()];
@@ -160,7 +160,7 @@ void Image::update_raw_data(formats format)
 	for (int i = 0; i < taskSize; i++)
 	{
 		raw_data[rawDataIndex] = image_data.at(i).getPixel()[0];
-		if (format == PPM||format == PBM)
+		if (format == PPM || format == PBM)
 		{
 			raw_data[rawDataIndex + 1] = image_data.at(i).getPixel()[1];
 			raw_data[rawDataIndex + 2] = image_data.at(i).getPixel()[2];
@@ -169,7 +169,7 @@ void Image::update_raw_data(formats format)
 		else
 		{
 			rawDataIndex += 1;
-		}		
+		}
 	}
 }
 
@@ -195,17 +195,6 @@ void Image::copy(const Image& rhs)
 	image_data = rhs.image_data;
 }
 
-void Image::showProgress(int completed, int fullTask)
-{
-	bool printed = false;
-	int percentComplete = (((float)completed / (float)fullTask)) * 100;
-	std::cout << "\r" << percentComplete << "%";
-	if (percentComplete % 10 == 0 && !printed)
-	{
-		printed = true;
-	}
-}
-
 void Image::executeTasks()
 {
 	for (int i = 0; i < operations.size(); ++i)
@@ -223,21 +212,30 @@ void Image::executeTasks()
 	}
 }
 
-Image::Image(std::string fileName)
+void Image::add_operation(ops op, std::string args)
 {
-	if (valid_header(fileName))
+	operations.push_back(op);
+}
+
+void Image::begin_work()
+{
+	if (valid_header(file_name))
 	{
-		format = determine_format(fileName);
-		init_vectors_256();
-		read_image(fileName);
-		operations.push_back(monochrome);
-		operations.push_back(grayscale);
-		//executeTasks();
+		read_image(file_name);
+		executeTasks();
 	}
 	else
 	{
 		std::cout << "ERROR: Invalid file!" << std::endl;
 	}
+}
+
+
+Image::Image(std::string fileName)
+{
+	format = determine_format(fileName);
+	init_vectors_256();
+	file_name = fileName;
 }
 
 Image::~Image()

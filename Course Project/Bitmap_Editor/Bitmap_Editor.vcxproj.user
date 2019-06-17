@@ -4,4 +4,8 @@
     <LocalDebuggerCommandArguments>--com1 p1  --com2=RED p2</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommandArguments>--histogram=RED pathOne --histogram=BLUE pathTwo --histogram=GREEN pathThree --monochrome pathFour --grayscale pathFive</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

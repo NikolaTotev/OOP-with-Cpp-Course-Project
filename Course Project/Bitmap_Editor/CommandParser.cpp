@@ -1,5 +1,6 @@
 #include "CommandParser.h"
-
+#include <algorithm>
+#include "../Image_Creation_Test/PROTO_Image.h"
 
 
 CommandParser::CommandParser()
@@ -11,7 +12,7 @@ CommandParser::~CommandParser()
 {
 }
 
-void CommandParser::separate_input(int argc, char *input[])
+void CommandParser::parse_input(int argc, char *input[])
 {
 	if (argc > 2)
 	{
@@ -32,4 +33,29 @@ void CommandParser::separate_input(int argc, char *input[])
 			
 		}
 	}
+
+	if(valid_commands())
+	{
+		gen_jobs();
+	}
+}
+
+bool CommandParser::valid_commands()
+{
+	for (string element : raw_commands)
+	{
+		if(acceptedCommands.count(element)==0)
+		{
+			cout << element << "ELEMENT" << endl;
+			cout << acceptedCommands.count(element) << "ELEMENT COUNT" << endl;
+
+			return false;
+		}
+	}
+	return true;
+}
+
+void CommandParser::gen_jobs()
+{
+	
 }

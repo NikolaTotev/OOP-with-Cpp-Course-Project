@@ -57,6 +57,8 @@ public:
 	void setBitDepth(int _depth) { bitDepth = _depth; }
 	void toGrayscale();
 	void toMonochrome();
+	void add_operation(ops op, std::string args = "no_args");
+	void begin_work();
 
 	std::vector<Pixel> getImageData() { return image_data; };
 
