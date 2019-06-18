@@ -32,7 +32,7 @@ void Pixel::setPixel(int r, int g, int b, int avrg)
 
 void Pixel::toGrayscale()
 {	
-	setPixel(getAverage(), getAverage(), getAverage());
+	setPixel(avrg_value, avrg_value, avrg_value);
 }
 
 void Pixel::toMonochrome(int limit)

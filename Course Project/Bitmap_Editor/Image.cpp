@@ -126,10 +126,9 @@ void Image::read_image(std::string fileName)
 			green_count.at(G) += 1;
 
 			int avrg = (R + G + B) / 3;
-			Pixel pixel(R, G, B, avrg);
+			Pixel pixel(avrg, avrg, avrg, avrg);
 			image_data.push_back(pixel);
 			rawDataIndex += 3;
-			//showProgress(i, size);
 		}
 		file.close();
 	}
@@ -142,6 +141,7 @@ void Image::update_raw_data(formats format)
 	switch (format) {
 	case PPM:
 		raw_data = new  char[image_data.size() * 3];
+		std::cout << "PPM" << std::endl;
 		break;
 	case PBM:
 		raw_data = new  char[image_data.size() * 3];
@@ -187,6 +187,7 @@ const void Image::write_to_file(std::string path)
 
 void Image::copy(const Image& rhs)
 {
+	std::cout << "COPY CONST" << std::endl;
 	file_name = rhs.file_name;
 	width = rhs.width;
 	height = rhs.height;
@@ -247,9 +248,10 @@ void Image::toGrayscale()
 	
 		std::cout << "Converting to graysacle, please wait..." << std::endl;
 		Image grayscale_image = *this;
+		std::cout << grayscale_image.getImageData().size() << "SIZE" << std::endl;
 		int taskSize = grayscale_image.getImageData().size();
 		for (int i = 0; i < taskSize; ++i) {
-			grayscale_image.image_data[i].toMonochrome();
+			//grayscale_image.image_data[i].toGrayscale();
 		}
 		grayscale_image.format = PPM;
 		grayscale_image.update_raw_data(grayscale_image.format);
@@ -266,7 +268,7 @@ void Image::toMonochrome()
 	int taskSize = monochrome_image.image_data.size();
 	for (int i = 0; i < taskSize; ++i)
 	{
-		monochrome_image.image_data[i].toGrayscale();
+		monochrome_image.image_data[i].toMonochrome();
 	}
 	monochrome_image.format = PBM;
 	monochrome_image.update_raw_data(monochrome_image.format);
