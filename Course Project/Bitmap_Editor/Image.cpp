@@ -251,7 +251,7 @@ void Image::toGrayscale()
 		std::cout << grayscale_image.getImageData().size() << "SIZE" << std::endl;
 		int taskSize = grayscale_image.getImageData().size();
 		for (int i = 0; i < taskSize; ++i) {
-			//grayscale_image.image_data[i].toGrayscale();
+			grayscale_image.image_data[i].toGrayscale();
 		}
 		grayscale_image.format = PPM;
 		grayscale_image.update_raw_data(grayscale_image.format);
