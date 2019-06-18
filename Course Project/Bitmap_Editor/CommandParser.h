@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <set>
+#include "Job.h"
 
 using namespace std;
 class CommandParser
@@ -15,10 +16,11 @@ public:
 	~CommandParser();
 	std::vector<std::string> raw_commands;
 	std::vector<std::string> filePaths;
+	vector<Job*> job_list;
 	std::string command_start = "-";
 	string temp_cmnd="";
 	string temp_path="";
 	void parse_input(int argc, char *input[]);
-	bool valid_commands();
+	void execute_jobs();
 };
 

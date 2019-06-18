@@ -1,7 +1,12 @@
-﻿  Bitmap_Editor.cpp
+﻿  Image.cpp
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(81,23): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(105,26): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(109,22): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(114,24): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(200,20): warning C4018:  '<': signed/unsigned mismatch
   Generating code
-  1 of 154 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+  3 of 659 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Bitmap_Editor.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Release\Bitmap_Editor.exe

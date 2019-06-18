@@ -32,22 +32,28 @@ void Job::set_path(std::string _path)
 
 void Job::execute()
 {
+	gen_final_commands();
 	Image root_image(path);
 
 	for (int i = 0; i < final_commands.size(); ++i)
 	{
-		if(final_commands[i] == "monochrome")
+		if(final_commands[i] == "--monochrome")
 		{
 			root_image.add_operation(Image::ops::monochrome);
 		}
-		else if (final_commands[i] == "grayscale")
+		else if (final_commands[i] == "--grayscale")
 		{
 			root_image.add_operation(Image::ops::grayscale);
 		}
-		else if (final_commands[i] =="histogram")
+		else if (final_commands[i] =="--histogram")
 		{
 			std::cout << "Hist" << std::endl;
 		}
 	}
 	root_image.begin_work();
+}
+
+Job* Job::copy()
+{
+	return new Job(*this);	
 }

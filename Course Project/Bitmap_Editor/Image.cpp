@@ -244,22 +244,19 @@ Image::~Image()
 
 void Image::toGrayscale()
 {
-	if (format != PGM && format != PBM)
-	{
+	
 		std::cout << "Converting to graysacle, please wait..." << std::endl;
 		Image grayscale_image = *this;
 		int taskSize = grayscale_image.getImageData().size();
 		for (int i = 0; i < taskSize; ++i) {
-			grayscale_image.image_data[i].toGrayscale();
+			grayscale_image.image_data[i].toMonochrome();
 		}
-		grayscale_image.format = PGM;
+		grayscale_image.format = PPM;
 		grayscale_image.update_raw_data(grayscale_image.format);
 		int sub_index = strlen(grayscale_image.file_name.c_str()) - 4;
-		std::string newName = grayscale_image.file_name.substr(0, sub_index) + "_grayscale.pgm";
-		grayscale_image.setMagicNumber("P5");
+		std::string newName = grayscale_image.file_name.substr(0, sub_index) + "_grayscale.ppm";
+		grayscale_image.setMagicNumber("P6");
 		grayscale_image.write_to_file(newName);
-	}
-
 }
 
 void Image::toMonochrome()
@@ -269,7 +266,7 @@ void Image::toMonochrome()
 	int taskSize = monochrome_image.image_data.size();
 	for (int i = 0; i < taskSize; ++i)
 	{
-		monochrome_image.image_data[i].toMonochrome();
+		monochrome_image.image_data[i].toGrayscale();
 	}
 	monochrome_image.format = PBM;
 	monochrome_image.update_raw_data(monochrome_image.format);
