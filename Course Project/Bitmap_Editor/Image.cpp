@@ -126,15 +126,15 @@ void Image::read_image(std::string fileName)
 			blue_count.at(B) += 1;
 			green_count.at(G) += 1;
 			if (R != B && B != G && R != G) { isGrayscale = false; }
-			
+
 			int avrg = (R + G + B) / 3;
 			if (avrg != 1 && avrg != 255)
 			{
 				isMonochrome = false;
-			//	std::cout << avrg <<" "<< i <<  std::endl;
-			//	std::cout << R << " " << G << " " << B << std::endl;
+				//	std::cout << avrg <<" "<< i <<  std::endl;
+				//	std::cout << R << " " << G << " " << B << std::endl;
 			}
-			
+
 			Pixel pixel(R, G, B, avrg);
 			image_data.push_back(pixel);
 			rawDataIndex += 3;
@@ -219,12 +219,10 @@ void Image::executeTasks()
 			std::thread gray_scale(&Image::toGrayscale, this);
 			gray_scale.join();
 		}
-		if(operations[i] == histogram)
-		{ 
-			genHistogram();
-			/*
+		if (operations[i] == histogram)
+		{
 			std::thread gen_histogram(&Image::genHistogram, this);
-			gen_histogram.join();*/
+			gen_histogram.join();
 		}
 	}
 }
@@ -361,10 +359,10 @@ void Image::genHistogram()
 		for (int x = 0; x < 256; ++x)
 		{
 			rawData[rawIndex] = histogramData[x][y].getPixel()[0];
-			rawData[rawIndex+1] = histogramData[x][y].getPixel()[1];
-			rawData[rawIndex+2] = histogramData[x][y].getPixel()[2];
+			rawData[rawIndex + 1] = histogramData[x][y].getPixel()[1];
+			rawData[rawIndex + 2] = histogramData[x][y].getPixel()[2];
 
-			rawIndex+=3;
+			rawIndex += 3;
 			//file << histogramData[x][y].getPixel()[0] << histogramData[x][y].getPixel()[1] << histogramData[x][y].getPixel()[2];
 		//	std::cout<< " " << histogramData[x][y].getPixel()[0] << " " << histogramData[x][y].getPixel()[1] << " " << histogramData[x][y].getPixel()[2] << std::endl;
 		}
