@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+
 void Image::init_vectors_256()
 {
 	red_count.reserve(256);
@@ -124,9 +125,17 @@ void Image::read_image(std::string fileName)
 			red_count.at(R) += 1;
 			blue_count.at(B) += 1;
 			green_count.at(G) += 1;
-
+			if (R != B && B != G && R != G) { isGrayscale = false; }
+			
 			int avrg = (R + G + B) / 3;
-			Pixel pixel(avrg, avrg, avrg, avrg);
+			if (avrg != 1 && avrg != 255)
+			{
+				isMonochrome = false;
+			//	std::cout << avrg <<" "<< i <<  std::endl;
+			//	std::cout << R << " " << G << " " << B << std::endl;
+			}
+			
+			Pixel pixel(R, G, B, avrg);
 			image_data.push_back(pixel);
 			rawDataIndex += 3;
 		}
@@ -210,6 +219,13 @@ void Image::executeTasks()
 			std::thread gray_scale(&Image::toGrayscale, this);
 			gray_scale.join();
 		}
+		if(operations[i] == histogram)
+		{ 
+			genHistogram();
+			/*
+			std::thread gen_histogram(&Image::genHistogram, this);
+			gen_histogram.join();*/
+		}
 	}
 }
 
@@ -245,7 +261,9 @@ Image::~Image()
 
 void Image::toGrayscale()
 {
-	
+	std::cout << "Is grayscale " << isGrayscale << std::endl;
+	if (!isGrayscale)
+	{
 		std::cout << "Converting to graysacle, please wait..." << std::endl;
 		Image grayscale_image = *this;
 		std::cout << grayscale_image.getImageData().size() << "SIZE" << std::endl;
@@ -259,23 +277,117 @@ void Image::toGrayscale()
 		std::string newName = grayscale_image.file_name.substr(0, sub_index) + "_grayscale.ppm";
 		grayscale_image.setMagicNumber("P6");
 		grayscale_image.write_to_file(newName);
+		return;
+	}
+	std::cout << "No conversion occured, image already grayscale!" << std::endl;
 }
 
 void Image::toMonochrome()
 {
-	std::cout << "Converting to monochrome, please wait..." << std::endl;
-	Image monochrome_image = *this;
-	int taskSize = monochrome_image.image_data.size();
-	for (int i = 0; i < taskSize; ++i)
+	std::cout << "Is monochrome " << isMonochrome << std::endl;
+
+	if (!isGrayscale)
 	{
-		monochrome_image.image_data[i].toMonochrome();
+		std::cout << "Converting to monochrome, please wait..." << std::endl;
+		Image monochrome_image = *this;
+		int taskSize = monochrome_image.image_data.size();
+		for (int i = 0; i < taskSize; ++i)
+		{
+			monochrome_image.image_data[i].toMonochrome();
+		}
+		monochrome_image.format = PBM;
+		monochrome_image.update_raw_data(monochrome_image.format);
+		int sub_index = strlen(monochrome_image.file_name.c_str()) - 4;
+		std::string newName = monochrome_image.file_name.substr(0, sub_index) + "_monochrome.pbm";
+		monochrome_image.setMagicNumber("P6");
+		monochrome_image.write_to_file(newName);
 	}
-	monochrome_image.format = PBM;
-	monochrome_image.update_raw_data(monochrome_image.format);
-	int sub_index = strlen(monochrome_image.file_name.c_str()) - 4;
-	std::string newName = monochrome_image.file_name.substr(0, sub_index) + "_monochrome.pbm";
-	monochrome_image.setMagicNumber("P6");
-	monochrome_image.write_to_file(newName);
+	std::cout << "No conversion occured, image already monochrome!" << std::endl;
+
+}
+
+void Image::genHistogram()
+{
+	std::cout << "Generating histogram..." << std::endl;
+	generatePercentages();
+	std::vector<std::vector<Pixel>> histogramData;
+	histogramData.reserve(256);
+
+	std::vector<Pixel> backgroundCol;
+	backgroundCol.reserve(100);
+	for (int i = 0; i < 100; ++i)
+	{
+		backgroundCol.push_back(Pixel(15, 15, 15, 1));
+	}
+	for (int y = 0; y < 256; ++y)
+	{
+		histogramData.push_back(backgroundCol);
+	}
+
+	for (int i = 0; i < 256; ++i)
+	{
+		histogramData[i][99] = Pixel(255, 186, 1, 1);
+	}
+
+	for (int i = 0; i < 100; ++i)
+	{
+		histogramData[0][i] = Pixel(255, 186, 1, 1);
+	}
+
+
+	for (int i = 0; i < 256; i++)
+	{
+
+		for (int j = 98; j > abs(98 - red_percent[i]); --j)
+		{
+			histogramData[i][j] = Pixel(255, 1, 1, 1);
+		}
+
+	}
+	int sub_index = strlen(file_name.c_str()) - 4;
+
+	std::string mainPath = file_name.substr(0, sub_index) + "_histogram.ppm";
+
+	char* rawData = new char[100 * 256 * 3];
+	//char** rawD = new char[256][100];
+	int rawIndex = 0;
+	std::ofstream file;
+	file.open(mainPath, std::ios::binary | std::ios::out);
+	file << "P6" << std::endl;
+	file << 256 << std::endl << 100 << std::endl;
+	file << "255" << std::endl;
+	for (int y = 0; y < 100; ++y)
+	{
+		for (int x = 0; x < 256; ++x)
+		{
+			rawData[rawIndex] = histogramData[x][y].getPixel()[0];
+			rawData[rawIndex+1] = histogramData[x][y].getPixel()[1];
+			rawData[rawIndex+2] = histogramData[x][y].getPixel()[2];
+
+			rawIndex+=3;
+			//file << histogramData[x][y].getPixel()[0] << histogramData[x][y].getPixel()[1] << histogramData[x][y].getPixel()[2];
+		//	std::cout<< " " << histogramData[x][y].getPixel()[0] << " " << histogramData[x][y].getPixel()[1] << " " << histogramData[x][y].getPixel()[2] << std::endl;
+		}
+	}
+
+	file.write(rawData, strlen(rawData));
+	file.close();
+}
+
+void Image::generatePercentages()
+{
+	std::cout << "Generating percentages..." << std::endl;
+
+	for (int i = 0; i < 256; ++i)
+	{
+		red_percent.at(i) = (getReds().at(i) / (height * width)) * 100;
+		green_percent.at(i) = (getGreens().at(i) / (height * width)) * 100;
+		blue_percent.at(i) = (getBlues().at(i) / (height * width)) * 100;
+	}
+	for (int i = 0; i < 256; ++i)
+	{
+		//std::cout << i << " " << red_percent.at(i) << std::endl;
+	}
 }
 
 Image& Image::operator=(const Image& rhs)

@@ -9,7 +9,7 @@ Pixel::Pixel()
 
 Pixel::Pixel(unsigned char r, unsigned char g, unsigned char b, int avrg)
 {
-	setPixel(ZERO, ZERO, ZERO, avrg);
+	setPixel(r, g, b, avrg);
 }
 
 Pixel::~Pixel()

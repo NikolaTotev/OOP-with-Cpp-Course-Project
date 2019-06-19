@@ -14,6 +14,8 @@ private:
 	const int c_default_width = 256;
 	const int c_default_height = 256;
 	typedef  unsigned int size_int;
+	bool isGrayscale = true;
+	bool isMonochrome = true;
 
 	formats format;
 
@@ -57,8 +59,18 @@ public:
 	void setBitDepth(int _depth) { bitDepth = _depth; }
 	void toGrayscale();
 	void toMonochrome();
+	void genHistogram();
+	void generatePercentages();
 	void add_operation(ops op, std::string args = "no_args");
 	void begin_work();
+
+	std::vector<float> getReds() const { return red_count; }
+	std::vector<float> getBlues() const { return blue_count; }
+	std::vector<float> getGreens() const { return green_count; }
+
+	std::vector<float> getRed_percentage() const { return red_percent; }
+	std::vector<float> getBlue_percentage() const { return blue_percent; }
+	std::vector<float> getGreen_percentage() const { return green_percent; }
 
 	std::vector<Pixel> getImageData() { return image_data; };
 

@@ -1,2 +1,7 @@
-﻿  Bitmap_Editor.cpp
+﻿  Image.cpp
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(82,23): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(106,26): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(110,22): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(115,24): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(210,20): warning C4018:  '<': signed/unsigned mismatch
   Bitmap_Editor.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Debug\Bitmap_Editor.exe
