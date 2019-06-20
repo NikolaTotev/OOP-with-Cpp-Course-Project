@@ -3,7 +3,7 @@
 #include "Pixel.h"
 #include <vector>
 #include <thread>
-
+#include  "Job.h"
 class Image
 {
 public:
@@ -37,6 +37,7 @@ private:
 
 	std::vector<std::thread> tasks;
 	std::vector<ops> operations;
+	std::vector<Job::args_enum> op_args;
 
 	void init_vectors_256();
 	formats determine_format(std::string fileName);
@@ -59,9 +60,9 @@ public:
 	void setBitDepth(int _depth) { bitDepth = _depth; }
 	void toGrayscale();
 	void toMonochrome();
-	void genHistogram();
+	void genHistogram(Job::args_enum target_color);
 	void generatePercentages();
-	void add_operation(ops op, std::string args = "no_args");
+	void add_operation(ops op,  Job::args_enum = Job::args_enum::NA);
 	void begin_work();
 
 	std::vector<float> getReds() const { return red_count; }

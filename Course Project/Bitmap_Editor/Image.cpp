@@ -128,7 +128,7 @@ void Image::read_image(std::string fileName)
 			if (R != B && B != G && R != G) { isGrayscale = false; }
 
 			int avrg = (R + G + B) / 3;
-			if (avrg != 1 && avrg != 255)
+			if (avrg != 1 && avrg != 255 && avrg != 253)
 			{
 				isMonochrome = false;
 				//	std::cout << avrg <<" "<< i <<  std::endl;
@@ -221,15 +221,17 @@ void Image::executeTasks()
 		}
 		if (operations[i] == histogram)
 		{
-			std::thread gen_histogram(&Image::genHistogram, this);
+			std::cout << "GENING HISTOGRAM WITH " << op_args[i] << std::endl;
+			std::thread gen_histogram(&Image::genHistogram, this, op_args[i]);
 			gen_histogram.join();
 		}
 	}
 }
 
-void Image::add_operation(ops op, std::string args)
+void Image::add_operation(ops op, Job::args_enum args)
 {
 	operations.push_back(op);
+	op_args.push_back(args);
 }
 
 void Image::begin_work()
@@ -284,7 +286,7 @@ void Image::toMonochrome()
 {
 	std::cout << "Is monochrome " << isMonochrome << std::endl;
 
-	if (!isGrayscale)
+	if (!isMonochrome)
 	{
 		std::cout << "Converting to monochrome, please wait..." << std::endl;
 		Image monochrome_image = *this;
@@ -304,7 +306,7 @@ void Image::toMonochrome()
 
 }
 
-void Image::genHistogram()
+void Image::genHistogram(Job::args_enum target_color)
 {
 	std::cout << "Generating histogram..." << std::endl;
 	generatePercentages();
@@ -332,28 +334,52 @@ void Image::genHistogram()
 		histogramData[0][i] = Pixel(255, 186, 1, 1);
 	}
 
+	std::vector<float> target_percentages;
+	Pixel color;
+	std::string suffix;
+	switch (target_color) {
+	case Job::RED:
+		target_percentages = red_percent;
+		color.setPixel(255, 1, 1, 1);
+		suffix = "_histogram_red.ppm";
+		break;
+	case Job::GREEN:
+		target_percentages = green_percent;
+		color.setPixel(1, 255, 1, 1);
+		suffix = "_histogram_green.ppm";
+		break;
+	case Job::BLUE:
+		target_percentages = blue_percent;
+		color.setPixel(1, 1, 255, 1);
+		suffix = "_histogram_blue.ppm";
+		break;
+	case Job::NA:
+		std::cout << "Failed to generate histogram, missing or invalid arguments!" << std::endl;
+		break;
+	default:;
+	}
 
 	for (int i = 0; i < 256; i++)
 	{
 
-		for (int j = 98; j > abs(98 - red_percent[i]); --j)
+		for (int j = 98; j > abs(98 - target_percentages[i]); --j)
 		{
-			histogramData[i][j] = Pixel(255, 1, 1, 1);
+			histogramData[i][j] = color;
 		}
 
 	}
+
 	int sub_index = strlen(file_name.c_str()) - 4;
-
-	std::string mainPath = file_name.substr(0, sub_index) + "_histogram.ppm";
-
+	std::string mainPath = file_name.substr(0, sub_index) + suffix;
 	char* rawData = new char[100 * 256 * 3];
-	//char** rawD = new char[256][100];
 	int rawIndex = 0;
+
 	std::ofstream file;
 	file.open(mainPath, std::ios::binary | std::ios::out);
 	file << "P6" << std::endl;
 	file << 256 << std::endl << 100 << std::endl;
 	file << "255" << std::endl;
+
 	for (int y = 0; y < 100; ++y)
 	{
 		for (int x = 0; x < 256; ++x)
@@ -363,8 +389,6 @@ void Image::genHistogram()
 			rawData[rawIndex + 2] = histogramData[x][y].getPixel()[2];
 
 			rawIndex += 3;
-			//file << histogramData[x][y].getPixel()[0] << histogramData[x][y].getPixel()[1] << histogramData[x][y].getPixel()[2];
-		//	std::cout<< " " << histogramData[x][y].getPixel()[0] << " " << histogramData[x][y].getPixel()[1] << " " << histogramData[x][y].getPixel()[2] << std::endl;
 		}
 	}
 
@@ -381,10 +405,6 @@ void Image::generatePercentages()
 		red_percent.at(i) = (getReds().at(i) / (height * width)) * 100;
 		green_percent.at(i) = (getGreens().at(i) / (height * width)) * 100;
 		blue_percent.at(i) = (getBlues().at(i) / (height * width)) * 100;
-	}
-	for (int i = 0; i < 256; ++i)
-	{
-		//std::cout << i << " " << red_percent.at(i) << std::endl;
 	}
 }
 

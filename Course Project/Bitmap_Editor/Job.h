@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <map>
+#include <set>
 
 class Job
 {
 public:
+	std::set<std::string> allowed_args = { "RED", "GREEN", "BLUE" };
+	enum args_enum { RED, GREEN, BLUE, NA};
 	std::vector<std::string> commands;
 	std::vector<std::string>final_commands;
 	std::vector<std::string>command_args;

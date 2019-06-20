@@ -54,14 +54,13 @@ void CommandParser::parse_input(int argc, char *input[])
 			
 		}
 	}
-	cout << job_list[0]->commands[0] << "COMMMAANDDDSSS" << endl;
 }
 
 void CommandParser::execute_jobs()
 {
 	vector<thread> jobs;
 	for (Job* element : job_list)
-	{
+	{		
 		element->execute();
 		//jobs.push_back(thread([=] { element->execute(); }));
 	}

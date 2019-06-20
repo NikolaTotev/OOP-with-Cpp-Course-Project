@@ -6,9 +6,9 @@ void Job::gen_final_commands()
 {
 	for (std::string element : commands)
 	{
-		if(element.find('=') != std::string::npos)
+		if (element.find('=') != std::string::npos)
 		{
-			std::string arg = element.substr(element.find('=')+1);
+			std::string arg = element.substr(element.find('=') + 1);
 			final_commands.push_back(element);
 			command_args.push_back(arg);
 		}
@@ -37,7 +37,8 @@ void Job::execute()
 
 	for (int i = 0; i < final_commands.size(); ++i)
 	{
-		if(final_commands[i] == "--monochrome")
+		std::cout << final_commands[i] << std::endl;
+		if (final_commands[i] == "--monochrome")
 		{
 			root_image.add_operation(Image::ops::monochrome);
 		}
@@ -45,9 +46,30 @@ void Job::execute()
 		{
 			root_image.add_operation(Image::ops::grayscale);
 		}
-		else if (final_commands[i] =="--histogram")
+		else if (final_commands[i].substr(0, 11 ) == "--histogram")
 		{
-			std::cout << "Hist" << std::endl;
+			std::cout << "HISTOGRAM" << std::endl;
+			if (allowed_args.count(command_args[i]) != 0)
+			{
+
+				if (command_args[i] == "RED")
+				{
+					root_image.add_operation(Image::ops::histogram, RED);
+				}
+				else if (command_args[i] == "BLUE")
+				{
+					root_image.add_operation(Image::ops::histogram, BLUE);
+				}
+				else if (command_args[i] == "GREEN")
+				{
+					root_image.add_operation(Image::ops::histogram, GREEN);
+				}
+			}
+			else
+			{
+				std::cout << "Histogram command has wrong or missing arguments!" << std::endl;
+				return;
+			}
 		}
 	}
 	root_image.begin_work();
@@ -55,5 +77,5 @@ void Job::execute()
 
 Job* Job::copy()
 {
-	return new Job(*this);	
+	return new Job(*this);
 }
