@@ -55,6 +55,10 @@ public:
 
 	void setFileName(std::string _fileName) { file_name = _fileName; }
 	void setMagicNumber(std::string _magicNumber) { magic_number = _magicNumber; }
+	///<summary>
+	///TEST
+	///<para> TEST TEST
+	///</summary>
 	void setWidth(size_int _width) { width = _width; }
 	void setHeight(size_int _height) { height = _height; }
 	void setBitDepth(int _depth) { bitDepth = _depth; }
@@ -63,6 +67,7 @@ public:
 	void genHistogram(Job::args_enum target_color);
 	void generatePercentages();
 	void add_operation(ops op,  Job::args_enum = Job::args_enum::NA);
+
 	void begin_work();
 
 	std::vector<float> getReds() const { return red_count; }

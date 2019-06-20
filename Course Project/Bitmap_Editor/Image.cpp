@@ -2,7 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
-
+///<summary>
+///
+///</summary>
 void Image::init_vectors_256()
 {
 	red_count.reserve(256);
@@ -25,6 +27,14 @@ void Image::init_vectors_256()
 		blue_percent.push_back(0);
 	}
 }
+///<summary>
+///Determines the format of the file by reading the last three characters of the fileName argument.
+///Accepted args are:
+///<para> ppm
+///<para> pbm
+///<para> pgm
+///<para> If none of the above suffixes are found the format is assigned NA.
+///</summary>
 
 Image::formats Image::determine_format(std::string fileName)
 {
@@ -38,6 +48,10 @@ Image::formats Image::determine_format(std::string fileName)
 	return NA;
 }
 
+///<summary>
+///Validates that the header has the correct format. 
+///
+///</summary>
 bool Image::valid_header(std::string fileName)
 {
 	std::ifstream file;
@@ -102,7 +116,6 @@ void Image::read_image(std::string fileName)
 			}
 		}
 
-
 		unsigned long imageLen = static_cast<unsigned long>(size) - headerLength;
 		unsigned long modifier = (static_cast<unsigned long>(size) - imageLen);
 		unsigned long imageSize = imageLen + modifier;
@@ -110,17 +123,21 @@ void Image::read_image(std::string fileName)
 		image_data.reserve(size);
 		raw_data = new char[imageSize];
 
-		int rawDataIndex = 0;
+		unsigned long rawDataIndex = 0;
 
-		for (unsigned long i = headerLength; i < imageSize; i += 3)
+		for (unsigned long i = headerLength; i < imageSize-3; i += 3)
 		{
 			unsigned char R = memBlock[i];
 			unsigned char G = memBlock[i + 1];
 			unsigned char B = memBlock[i + 2];
 
-			raw_data[rawDataIndex] = R;
-			raw_data[rawDataIndex + 1] = G;
-			raw_data[rawDataIndex + 2] = B;
+			if(rawDataIndex < imageSize-3)
+			{
+				raw_data[rawDataIndex] = R;
+				raw_data[rawDataIndex + 1] = G;
+				raw_data[rawDataIndex + 2] = B;
+			}
+		
 
 			red_count.at(R) += 1;
 			blue_count.at(B) += 1;
@@ -131,8 +148,6 @@ void Image::read_image(std::string fileName)
 			if (avrg != 1 && avrg != 255 && avrg != 253)
 			{
 				isMonochrome = false;
-				//	std::cout << avrg <<" "<< i <<  std::endl;
-				//	std::cout << R << " " << G << " " << B << std::endl;
 			}
 
 			Pixel pixel(R, G, B, avrg);
@@ -146,7 +161,6 @@ void Image::read_image(std::string fileName)
 void Image::update_raw_data(formats format)
 {
 	std::cout << "Updating data... " << std::endl;
-	//delete[] raw_data;
 	switch (format) {
 	case PPM:
 		raw_data = new  char[image_data.size() * 3];
@@ -166,14 +180,18 @@ void Image::update_raw_data(formats format)
 
 	int taskSize = image_data.size();
 	int rawDataIndex = 0;
+	std::cout << strlen(raw_data) << "SIZEE" << std::endl; 
 	for (int i = 0; i < taskSize; i++)
 	{
+		if(rawDataIndex < image_data.size()*3)
+		{			
 		raw_data[rawDataIndex] = image_data.at(i).getPixel()[0];
+		}
 		if (format == PPM || format == PBM)
 		{
 			raw_data[rawDataIndex + 1] = image_data.at(i).getPixel()[1];
-			raw_data[rawDataIndex + 2] = image_data.at(i).getPixel()[2];
-			rawDataIndex += 3;
+			raw_data[rawDataIndex + 2] = image_data.at(i).getPixel()[2];			
+			rawDataIndex += 3;							
 		}
 		else
 		{
@@ -182,6 +200,13 @@ void Image::update_raw_data(formats format)
 	}
 }
 
+
+///<summary>
+///Creates a new file, then writes all of the relevant information to it. 
+///First header info is written, then the raw image data.
+///</summary>
+///<param name="path">A string that is the path that the file should be created at.</param>
+///<return>void</return>
 const void Image::write_to_file(std::string path)
 {
 	std::cout << "Writing to file..." << std::endl;
@@ -194,6 +219,12 @@ const void Image::write_to_file(std::string path)
 	file.close();
 }
 
+
+///<summary>
+///Handles copying of the class. Called in the copy constructor. 
+///</summary>
+///<param name="rhs">Reference to the object that you want to copy.</param>
+///<return>void</return>
 void Image::copy(const Image& rhs)
 {
 	std::cout << "COPY CONST" << std::endl;
@@ -205,6 +236,12 @@ void Image::copy(const Image& rhs)
 	image_data = rhs.image_data;
 }
 
+///<summary>
+///Handles operation execution. 
+///Each operation is launched on a separate thread for better performance
+///</summary>
+///<param>No parameters</param>
+///<return>void</return>
 void Image::executeTasks()
 {
 	for (int i = 0; i < operations.size(); ++i)
@@ -221,19 +258,30 @@ void Image::executeTasks()
 		}
 		if (operations[i] == histogram)
 		{
-			std::cout << "GENING HISTOGRAM WITH " << op_args[i] << std::endl;
 			std::thread gen_histogram(&Image::genHistogram, this, op_args[i]);
 			gen_histogram.join();
 		}
 	}
 }
 
+///<summary>
+/// Adds operation to the list of operations to be performed on the image.
+///</summary>
+///<param name="op">Operation to be added</param>
+///<param name="args">Argument for the function being added. Default value is "no_args"</param>
+///<return>void</return>
 void Image::add_operation(ops op, Job::args_enum args)
 {
 	operations.push_back(op);
 	op_args.push_back(args);
 }
 
+///<summary>
+///Checks if file_name is valid. If it is commands for operation execution are run,
+///if file path is not valid error message is displayed on the console.
+///</summary>
+///<param>No parameters</param>
+///<return>void</return>
 void Image::begin_work()
 {
 	if (valid_header(file_name))
