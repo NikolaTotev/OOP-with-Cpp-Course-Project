@@ -96,8 +96,7 @@ void Image::read_image(std::string fileName)
 	file.seekg(0, std::ios::beg);
 	std::cout << size << " File size" << std::endl;
 	
-	std::vector<char> memBlock;
-	memBlock.reserve(size);
+	std::vector<char> memBlock(size);
 
 	if (file.is_open())
 	{
