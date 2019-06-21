@@ -4,6 +4,7 @@
 #include <vector>
 #include <thread>
 #include  "Job.h"
+
 class Image
 {
 public:
@@ -25,7 +26,8 @@ private:
 	size_int height = 0;
 	int bitDepth = 0;
 	std::vector<Pixel> image_data;
-	char* raw_data;
+	//char* raw_data;
+	std::vector<char>raw_data;
 
 	std::vector<float> red_count;
 	std::vector<float> green_count;

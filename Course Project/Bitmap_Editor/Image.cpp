@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+#include <iterator>
 ///<summary>
 ///
 ///</summary>
@@ -87,15 +88,22 @@ void Image::read_image(std::string fileName)
 	std::ifstream file;
 	file.open(fileName, std::ios::in | std::ios::ate | std::ios::binary);
 
-	std::streampos size = file.tellg();
-	char* memBlock;
+	file.unsetf(std::ios::skipws);
+
+	std::streampos size;
+	file.seekg(0, std::ios::end);
+	size = file.tellg();
+	file.seekg(0, std::ios::beg);
+	std::cout << size << " File size" << std::endl;
+	
+	std::vector<char> memBlock;
+	memBlock.reserve(size);
 
 	if (file.is_open())
 	{
-		size = file.tellg();
-		memBlock = new char[size];
-		file.seekg(0, std::ios::beg);
-		file.read(memBlock, size);
+		memBlock.insert(memBlock.begin(),
+			std::istream_iterator<char>(file),
+			std::istream_iterator<char>());
 
 		int spaces = 0;
 		std::streampos headerLength = 0;
@@ -115,44 +123,46 @@ void Image::read_image(std::string fileName)
 				break;
 			}
 		}
-
-		unsigned long imageLen = static_cast<unsigned long>(size) - headerLength;
-		unsigned long modifier = (static_cast<unsigned long>(size) - imageLen);
+		std::cout << headerLength << " Header length." << std::endl;
+		unsigned long memSize = memBlock.size();
+		unsigned long imageLen = static_cast<unsigned long>(memSize) - headerLength;
+		unsigned long modifier = (static_cast<unsigned long>(memSize) - imageLen);
 		unsigned long imageSize = imageLen + modifier;
-
-		image_data.reserve(size);
-		raw_data = new char[imageSize];
+		std::cout << imageSize << " imageSize" << std::endl;
+		std::cout << memSize << " memBlock" << std::endl;
+		image_data.reserve(imageSize / 3);
+		raw_data.reserve(imageSize);
 
 		unsigned long rawDataIndex = 0;
-
-		for (unsigned long i = headerLength; i < imageSize-3; i += 3)
+		int numberOfLoops = 0;
+		for (unsigned long i = headerLength; i < imageSize - 3; i += 3)
 		{
-			unsigned char R = memBlock[i];
-			unsigned char G = memBlock[i + 1];
-			unsigned char B = memBlock[i + 2];
-
-			if(rawDataIndex < imageSize-3)
+			if (i < memBlock.size())
 			{
-				raw_data[rawDataIndex] = R;
-				raw_data[rawDataIndex + 1] = G;
-				raw_data[rawDataIndex + 2] = B;
+				numberOfLoops++;
+				unsigned char R = memBlock[i];
+				unsigned char G = memBlock[i + 1];
+				unsigned char B = memBlock[i + 2];
+
+				raw_data.push_back(R);
+				raw_data.push_back(G);
+				raw_data.push_back(B);
+
+				red_count.at(R) += 1;
+				blue_count.at(B) += 1;
+				green_count.at(G) += 1;
+				if (R != B && B != G && R != G) { isGrayscale = false; }
+
+				int avrg = (R + G + B) / 3;
+				if (avrg != 1 && avrg != 255 && avrg != 253)
+				{
+					isMonochrome = false;
+				}
+
+				Pixel pixel(R, G, B, avrg);
+				image_data.push_back(pixel);
+				rawDataIndex += 3;
 			}
-		
-
-			red_count.at(R) += 1;
-			blue_count.at(B) += 1;
-			green_count.at(G) += 1;
-			if (R != B && B != G && R != G) { isGrayscale = false; }
-
-			int avrg = (R + G + B) / 3;
-			if (avrg != 1 && avrg != 255 && avrg != 253)
-			{
-				isMonochrome = false;
-			}
-
-			Pixel pixel(R, G, B, avrg);
-			image_data.push_back(pixel);
-			rawDataIndex += 3;
 		}
 		file.close();
 	}
@@ -160,42 +170,20 @@ void Image::read_image(std::string fileName)
 
 void Image::update_raw_data(formats format)
 {
-	std::cout << "Updating data... " << std::endl;
-	switch (format) {
-	case PPM:
-		raw_data = new  char[image_data.size() * 3];
-		std::cout << "PPM" << std::endl;
-		break;
-	case PBM:
-		raw_data = new  char[image_data.size() * 3];
-		break;
-	case PGM:
-		raw_data = new  char[image_data.size()];
-		break;
-	case NA:
-		break;
-	default:
-		return;
-	}
-
+	std::cout << "Updating data... " << std::endl;	
 	int taskSize = image_data.size();
 	int rawDataIndex = 0;
-	std::cout << strlen(raw_data) << "SIZEE" << std::endl; 
+
 	for (int i = 0; i < taskSize; i++)
 	{
-		if(rawDataIndex < image_data.size()*3)
-		{			
-		raw_data[rawDataIndex] = image_data.at(i).getPixel()[0];
-		}
+		raw_data.push_back(image_data.at(i).getPixel()[0]);
+
 		if (format == PPM || format == PBM)
 		{
-			raw_data[rawDataIndex + 1] = image_data.at(i).getPixel()[1];
-			raw_data[rawDataIndex + 2] = image_data.at(i).getPixel()[2];			
-			rawDataIndex += 3;							
-		}
-		else
-		{
-			rawDataIndex += 1;
+			raw_data.push_back(image_data.at(i).getPixel()[1]);
+			raw_data.push_back(image_data.at(i).getPixel()[2]);
+
+			
 		}
 	}
 }
@@ -215,7 +203,7 @@ const void Image::write_to_file(std::string path)
 	file << magic_number << std::endl;
 	file << width << std::endl << height << std::endl;
 	file << bitDepth << std::endl;
-	file.write(raw_data, strlen(raw_data));
+	file.write(raw_data.data(), raw_data.size());
 	file.close();
 }
 
@@ -227,7 +215,6 @@ const void Image::write_to_file(std::string path)
 ///<return>void</return>
 void Image::copy(const Image& rhs)
 {
-	std::cout << "COPY CONST" << std::endl;
 	file_name = rhs.file_name;
 	width = rhs.width;
 	height = rhs.height;
@@ -314,7 +301,7 @@ void Image::toGrayscale()
 	{
 		std::cout << "Converting to graysacle, please wait..." << std::endl;
 		Image grayscale_image = *this;
-		std::cout << grayscale_image.getImageData().size() << "SIZE" << std::endl;
+		std::cout << grayscale_image.getImageData().size() << " Image data size" << std::endl;
 		int taskSize = grayscale_image.getImageData().size();
 		for (int i = 0; i < taskSize; ++i) {
 			grayscale_image.image_data[i].toGrayscale();
