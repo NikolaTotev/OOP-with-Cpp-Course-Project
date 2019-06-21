@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LocalDebuggerCommandArguments>--monochrome --grayscale "D:/Documents/Learning/Object Oriented Programming/Course Project/OOP-Course-Project-S1/saves/1.ppm" --grayscale --monochrome "D:/Documents/Learning/Object Oriented Programming/Course Project/OOP-Course-Project-S1/saves/7kills.ppm"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--monochrome --grayscale --histogram=RED --histogram=BLUE --histogram=GREEN "D:/Documents/Learning/Object Oriented Programming/Course Project/OOP-Course-Project-S1/saves/other_test.ppm" --monochrome --grayscale --histogram=RED --histogram=BLUE --histogram=GREEN "D:/Documents/Learning/Object Oriented Programming/Course Project/OOP-Course-Project-S1/saves/other.ppm"</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

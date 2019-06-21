@@ -45,7 +45,7 @@ private:
 	bool valid_header(std::string fileName);
 	void read_image(std::string fileName);
 	void update_raw_data(formats format);
-	const void write_to_file(std::string path);
+	const void write_to_file(std::string fileName);
 	void copy(const Image& rhs);
 	void showProgress(int fullTask, int completed);
 	void executeTasks();
@@ -56,10 +56,6 @@ public:
 
 	void setFileName(std::string _fileName) { file_name = _fileName; }
 	void setMagicNumber(std::string _magicNumber) { magic_number = _magicNumber; }
-	///<summary>
-	///TEST
-	///<para> TEST TEST
-	///</summary>
 	void setWidth(size_int _width) { width = _width; }
 	void setHeight(size_int _height) { height = _height; }
 	void setBitDepth(int _depth) { bitDepth = _depth; }

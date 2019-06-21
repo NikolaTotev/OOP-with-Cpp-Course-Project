@@ -60,14 +60,13 @@ void CommandParser::execute_jobs()
 {
 	vector<thread> jobs;
 	for (Job* element : job_list)
-	{		
-		element->execute();
-		//jobs.push_back(thread([=] { element->execute(); }));
+	{				
+		jobs.push_back(thread([=] { element->execute(); }));
 	}
 
 	for (int i = 0; i < jobs.size(); ++i)
 	{
-		//jobs[i].join();
+		jobs[i].join();
 	}	
 }
 

@@ -4,8 +4,10 @@
 #include <thread>
 #include <iterator>
 ///<summary>
-///
+///Initializes vectors used for calculating histogram in
 ///</summary>
+///<param>No parameters</param>
+///<return>void</return>
 void Image::init_vectors_256()
 {
 	red_count.reserve(256);
@@ -28,6 +30,7 @@ void Image::init_vectors_256()
 		blue_percent.push_back(0);
 	}
 }
+
 ///<summary>
 ///Determines the format of the file by reading the last three characters of the fileName argument.
 ///Accepted args are:
@@ -36,7 +39,6 @@ void Image::init_vectors_256()
 ///<para> pgm
 ///<para> If none of the above suffixes are found the format is assigned NA.
 ///</summary>
-
 Image::formats Image::determine_format(std::string fileName)
 {
 
@@ -51,8 +53,9 @@ Image::formats Image::determine_format(std::string fileName)
 
 ///<summary>
 ///Validates that the header has the correct format. 
-///
 ///</summary>
+///<param name="fileName">A string that is the path that the file should be created at.</param>
+///<return>Returns true if the header is valid, otherwise returns false.</return>
 bool Image::valid_header(std::string fileName)
 {
 	std::ifstream file;
@@ -82,6 +85,11 @@ bool Image::valid_header(std::string fileName)
 	return false;
 }
 
+///<summary>
+///Handles reading the image. Puts read information into pixel format, handles checking if the image in monochrome and graysacle.
+///</summary>
+///<param name="fileName">A string that is the path that the file should be created at.</param>
+///<return>void</return>
 void Image::read_image(std::string fileName)
 {
 	std::cout << "Reading file..." << std::endl;
@@ -192,13 +200,13 @@ void Image::update_raw_data(formats format)
 ///Creates a new file, then writes all of the relevant information to it. 
 ///First header info is written, then the raw image data.
 ///</summary>
-///<param name="path">A string that is the path that the file should be created at.</param>
+///<param name="fileName">A string that is the fileName that the file should be created at.</param>
 ///<return>void</return>
-const void Image::write_to_file(std::string path)
+const void Image::write_to_file(std::string fileName)
 {
 	std::cout << "Writing to file..." << std::endl;
 	std::ofstream file;
-	file.open(path, std::ios::binary | std::ios::out);
+	file.open(fileName, std::ios::binary | std::ios::out);
 	file << magic_number << std::endl;
 	file << width << std::endl << height << std::endl;
 	file << bitDepth << std::endl;
@@ -230,23 +238,31 @@ void Image::copy(const Image& rhs)
 ///<return>void</return>
 void Image::executeTasks()
 {
+	std::vector<std::thread> tasks;
 	for (int i = 0; i < operations.size(); ++i)
 	{
 		if (operations[i] == monochrome)
 		{
+			//tasks.push_back(std::thread(&Image::toMonochrome, this));
 			std::thread mono_chrome(&Image::toMonochrome, this);
 			mono_chrome.join();
 		}
 		if (operations[i] == grayscale)
 		{
+			//tasks.push_back(std::thread(&Image::toGrayscale, this));
 			std::thread gray_scale(&Image::toGrayscale, this);
 			gray_scale.join();
 		}
 		if (operations[i] == histogram)
 		{
+			//tasks.push_back(std::thread(&Image::genHistogram, this, op_args[i]));
 			std::thread gen_histogram(&Image::genHistogram, this, op_args[i]);
 			gen_histogram.join();
 		}
+	}
+	for (int i = 0; i < tasks.size(); i++)
+	{
+		//tasks[i].join();
 	}
 }
 
@@ -293,6 +309,12 @@ Image::~Image()
 {
 }
 
+///<summary>
+///Converts image to grayscale by calling the toGrayscale() function on each pixel.
+///<seealso cref="Pixel::toGrayscale()">Function for converting a pixel to grayscale.</seealso>
+///</summary>
+///<param>No parameters</param>
+///<return>void</return>
 void Image::toGrayscale()
 {
 	std::cout << "Is grayscale " << isGrayscale << std::endl;
@@ -316,6 +338,12 @@ void Image::toGrayscale()
 	std::cout << "No conversion occured, image already grayscale!" << std::endl;
 }
 
+///<summary>
+///Converts image to monochrome by calling the toMonochrome() function on each pixel.
+///<seealso cref="Pixel::toMonochrome()">Function for converting a pixel to monochrome.</seealso>
+///</summary>
+///<param>No parameters</param>
+///<return>void</return>
 void Image::toMonochrome()
 {
 	std::cout << "Is monochrome " << isMonochrome << std::endl;
@@ -340,6 +368,11 @@ void Image::toMonochrome()
 
 }
 
+///<summary>
+///Generates histogram from image data.
+///</summary>
+///<param>No parameters</param>
+///<return>void</return>
 void Image::genHistogram(Job::args_enum target_color)
 {
 	std::cout << "Generating histogram..." << std::endl;
@@ -430,6 +463,11 @@ void Image::genHistogram(Job::args_enum target_color)
 	file.close();
 }
 
+///<summary>
+///Generates the percentage values of the colors for use in creating a histogram of the image.
+///</summary>
+///<param>No parameters</param>
+///<return>void</return>
 void Image::generatePercentages()
 {
 	std::cout << "Generating percentages..." << std::endl;
@@ -442,6 +480,11 @@ void Image::generatePercentages()
 	}
 }
 
+///<summary>
+///Equal operator.
+///</summary>
+///<param name="rhs">const Image&</param>
+///<return>Returns Image&</return>
 Image& Image::operator=(const Image& rhs)
 {
 	if (this != &rhs)
@@ -451,6 +494,11 @@ Image& Image::operator=(const Image& rhs)
 	return *this;
 }
 
+///<summary>
+///Copy constructor.
+///</summary>
+///<param name="rhs">No parameters</param>
+///<return>void</return>
 Image::Image(const Image& rhs)
 {
 	copy(rhs);
