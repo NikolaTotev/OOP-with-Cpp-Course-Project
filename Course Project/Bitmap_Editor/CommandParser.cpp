@@ -1,8 +1,9 @@
 #include "CommandParser.h"
 #include <algorithm>
-#include "../Image_Creation_Test/PROTO_Image.h"
 #include "Job.h"
 #include <thread>
+#include <filesystem>
+namespace fs = experimental::filesystem;
 
 
 CommandParser::CommandParser()
@@ -45,6 +46,13 @@ void CommandParser::parse_input(int argc, char *input[])
 				}
 				else
 				{
+					if(arg.substr(0, 1) == ".")
+					{
+						string rel_path = fs::current_path().string();
+					cout << fs::current_path().append(arg.substr(2, arg.size()))<< " REL PATH"<<endl;
+						
+
+					}
 					filePaths.push_back(arg);
 					newJob->set_path(arg);
 					Job* stuff = newJob->copy();

@@ -48,7 +48,6 @@ void Job::execute()
 		}
 		else if (final_commands[i].substr(0, 11 ) == "--histogram")
 		{
-			std::cout << "HISTOGRAM" << std::endl;
 			if (allowed_args.count(command_args[i]) != 0)
 			{
 

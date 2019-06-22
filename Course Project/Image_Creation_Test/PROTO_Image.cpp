@@ -23,7 +23,7 @@ Image::Image(string fileName) :file_name(fileName)
 		p_green.push_back(0);
 		p_blue.push_back(0);
 	}
-	if (valid_header(fileName))
+	if (validHeader(fileName))
 	{
 		readPixelData(fileName);
 	}
@@ -72,7 +72,7 @@ void Image::writeHeader(std::ofstream & file, string magicNumber, size_int heigh
 //	}
 //}
 
-bool Image::valid_header(string fileName)
+bool Image::validHeader(string fileName)
 {
 	std::ifstream file;
 	file.open(fileName, std::ios::in | ios::binary);
@@ -100,10 +100,10 @@ bool Image::valid_header(string fileName)
 
 void Image::setHeaderInfo(string magicNumber, size_int width, size_int height, int bitDepth)
 {
-	setMagicNumber(magicNumber);
-	setWidth(width);
-	setHeight(height);
-	setBitDepth(bitDepth);
+	set_magic_number(magicNumber);
+	set_width(width);
+	set_height(height);
+	set_bit_depth(bitDepth);
 }
 
 void Image::convertToGrayScale()
