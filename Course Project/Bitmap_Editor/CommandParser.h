@@ -8,19 +8,24 @@
 using namespace std;
 class CommandParser
 {
-	enum  states {seek_cmnd, seek_path, read_cmd, read_path};
-	states currentState = seek_cmnd;
+	///Set of commands that are accepted by the application. Used to check the input.
 	set<string> acceptedCommands = { "--monochrome", "--grayscale", "--histogram=RED","--histogram=GREEN", "--histogram=BLUE" };
-public:
-	CommandParser();
-	~CommandParser();
+	
+	///Command start identifier.
+	std::string command_start = "-";
+
 	std::vector<std::string> raw_commands;
 	std::vector<std::string> filePaths;
+
+	///List of jobs. One job per path found.
 	vector<Job*> job_list;
-	std::string command_start = "-";
-	string temp_cmnd="";
-	string temp_path="";
+
+public:
+	///Destructor
+	~CommandParser();
+
+	///Main operations
 	void parse_input(int argc, char *input[]);
-	void execute_jobs();
+	void execute_jobs() const;
 };
 

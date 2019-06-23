@@ -1,16 +1,15 @@
-﻿  Bitmap_Editor.cpp
-  Image.cpp
-D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(168,29): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(196,26): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
-D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(211,32): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(212,34): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
-D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(213,34): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+﻿  Image.cpp
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(160,29): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(187,26): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(199,32): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(200,34): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(201,34): warning C4244:  'argument': conversion from 'std::streamoff' to 'const unsigned int', possible loss of data
   Job.cpp
-D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(499,20): warning C4018:  '<': signed/unsigned mismatch
-D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Job.cpp(38,20): warning C4018:  '<': signed/unsigned mismatch
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Image.cpp(488,20): warning C4018:  '<': signed/unsigned mismatch
+D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Bitmap_Editor\Job.cpp(41,20): warning C4018:  '<': signed/unsigned mismatch
   Generating code
-  40 of 1109 functions ( 3.6%) were compiled, the rest were copied from previous compilation.
-    15 functions were new in current compilation
-    31 functions had inline decision re-evaluated but remain unchanged
+  6 of 1037 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Bitmap_Editor.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Release\Bitmap_Editor.exe

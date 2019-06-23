@@ -5,14 +5,12 @@
 #include <filesystem>
 namespace fs = experimental::filesystem;
 
-
-CommandParser::CommandParser()
-{
-}
-
-
 CommandParser::~CommandParser()
 {
+	for (int i = 0; i < job_list.size(); ++i)
+	{
+		delete job_list[i];
+	}
 }
 
 void CommandParser::parse_input(int argc, char *input[])
@@ -48,14 +46,10 @@ void CommandParser::parse_input(int argc, char *input[])
 				{
 					if(arg.substr(0, 1) == ".")
 					{
-						string rel_path = fs::current_path().string();
-					cout << fs::current_path().append(arg.substr(2, arg.size()))<< " REL PATH"<<endl;
-						
-
+						string rel_path = fs::current_path().string();					
 					}
 					filePaths.push_back(arg);
-					newJob->set_path(arg);
-					Job* stuff = newJob->copy();
+					newJob->set_path(arg);					
 					job_list.push_back(newJob->copy());
 					job_created = true;
 				}
@@ -64,17 +58,11 @@ void CommandParser::parse_input(int argc, char *input[])
 	}
 }
 
-void CommandParser::execute_jobs()
+void CommandParser::execute_jobs()const
 {
-	vector<thread> jobs;
 	for (Job* element : job_list)
 	{				
-		jobs.push_back(thread([=] { element->execute(); }));
-	}
-
-	for (int i = 0; i < jobs.size(); ++i)
-	{
-		jobs[i].join();
+		element->execute();
 	}	
 }
 

@@ -35,6 +35,7 @@ Pixel& Pixel::operator=(const Pixel& rhs)
 
 Pixel::~Pixel()
 {
+	
 }
 
 

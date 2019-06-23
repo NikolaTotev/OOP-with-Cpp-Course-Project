@@ -5,19 +5,28 @@
 
 class Job
 {
-public:
-	std::set<std::string> allowed_args = { "RED", "GREEN", "BLUE" };
-	enum args_enum { RED, GREEN, BLUE, NA};
+	const std::set<std::string> allowed_args = { "RED", "GREEN", "BLUE" };
 	std::vector<std::string> commands;
 	std::vector<std::string>final_commands;
 	std::vector<std::string>command_args;
 	std::string path;
-	void gen_final_commands();
-	
+public:
 
+	///Arguments for histogram function. If no color is given NA is applied.
+	enum args_enum { RED, GREEN, BLUE, NA};
+
+	///Create the final list of operations along with the corresponding arguments.
+	void gen_final_commands();
+
+	///Add commands to the list of commands.
 	void add_command(std::string cmd);
+
+	///Setter for the target path of the job.
 	void set_path(std::string _path);
+
+	///Command for executing all of the operations.
 	void execute();
+
 	Job* copy();
 };
 

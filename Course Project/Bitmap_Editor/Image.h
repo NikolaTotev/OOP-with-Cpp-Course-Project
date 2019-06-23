@@ -23,7 +23,6 @@ private:
 
 	///General image information variables
 	bool isGrayscale = true;
-	bool isMonochrome = true;
 	formats format;
 
 	///Header variables
@@ -56,7 +55,7 @@ private:
 	///Read/write functions
 	void readImage(std::string fileName);
 	void updateRawData(formats format);
-	const void writeToFile(std::string fileName);
+	void writeToFile(std::string fileName) const;
 
 	///Copy function used in copy constructor.
 	void copy(const Image& rhs);
@@ -69,7 +68,6 @@ public:
 	Image(std::string fileName);
 	Image(const Image& rhs);
 	Image& operator =(const Image& rhs);
-	~Image();
 
 	///Header setters.
 	void set_file_name(std::string _fileName) { file_name = _fileName; }
@@ -79,7 +77,7 @@ public:
 	void set_bit_depth(int _depth) { bitDepth = _depth; }
 
 	///Getter for retrieving image data.
-	std::vector<Pixel> get_image_data() { return image_data; };
+	std::vector<Pixel> get_image_data() const { return image_data; };
 
 	///Main program functionality.
 	void to_grayscale()const;
@@ -94,7 +92,5 @@ public:
 	std::vector<float> getReds() const { return red_count; }
 	std::vector<float> getBlues() const { return blue_count; }
 	std::vector<float> getGreens() const { return green_count; }
-
-
 };
 

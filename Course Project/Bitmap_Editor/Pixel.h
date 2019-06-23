@@ -23,8 +23,8 @@ public:
 	void setPixel(unsigned char r, unsigned char g, unsigned char b, unsigned char avrg);
 
 	///Getters
-	const unsigned char* getPixel() { return pixelData; }
-	int getAverage() { return avrg_value; }
+	const unsigned char* getPixel() const { return pixelData; }
+	int getAverage() const { return avrg_value; }
 
 	///Main functionality functions
 	void toGrayscale();

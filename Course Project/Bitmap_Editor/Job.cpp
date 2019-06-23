@@ -30,14 +30,16 @@ void Job::set_path(std::string _path)
 	path = _path;
 }
 
-void Job::execute()
+void Job::execute() 
 {
 	gen_final_commands();
 	Image root_image(path);
+	std::cout << std::endl;
+	std::cout << "Working on: " << path << std::endl;
+	std::cout << std::endl;
 
 	for (int i = 0; i < final_commands.size(); ++i)
 	{
-		std::cout << final_commands[i] << std::endl;
 		if (final_commands[i] == "--monochrome")
 		{
 			root_image.add_operation(Image::ops::monochrome);

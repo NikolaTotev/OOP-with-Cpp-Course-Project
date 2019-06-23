@@ -1,5 +1,4 @@
-﻿  pch.cpp
-  Image_Creation_Test.cpp
+﻿  Image_Creation_Test.cpp
   PROTO_Image.cpp
 D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(112,20): warning C4018:  '<': signed/unsigned mismatch
 D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(123,20): warning C4018:  '<': signed/unsigned mismatch
@@ -10,7 +9,8 @@ D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Proj
 D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(274,27): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
 D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Image_Creation_Test\PROTO_Image.cpp(283,24): warning C4244:  'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 431 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  9 of 431 functions ( 2.1%) were compiled, the rest were copied from previous compilation.
+    6 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Image_Creation_Test.vcxproj -> D:\Documents\Learning\Object Oriented Programming\Course Project\OOP-Course-Project-S1\Course Project\Release\Image_Creation_Test.exe

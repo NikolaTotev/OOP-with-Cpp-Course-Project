@@ -59,9 +59,6 @@ Image::Image(const Image& rhs)
 	copy(rhs);
 }
 
-Image::~Image()
-{
-}
 
 ///<summary>
 ///Handles copying of the class. Called in the copy constructor. 
@@ -76,8 +73,6 @@ void Image::copy(const Image& rhs)
 	magic_number = rhs.magic_number;
 	bitDepth = rhs.bitDepth;
 	image_data = rhs.image_data;
-	isMonochrome = rhs.isMonochrome;
-	isGrayscale = rhs.isGrayscale;
 	red_count = rhs.red_count;
 	green_count = rhs.green_count;
 	blue_count = rhs.blue_count;
@@ -161,7 +156,6 @@ void Image::readImage(std::string fileName)
 	file.seekg(0, std::ios::end);
 	size = file.tellg();
 	file.seekg(0, std::ios::beg);
-	std::cout << size << " File size" << std::endl;
 
 	std::vector<char> memBlock(size);
 
@@ -189,17 +183,13 @@ void Image::readImage(std::string fileName)
 				break;
 			}
 		}
-		std::cout << headerLength << " Header length." << std::endl;
 		unsigned long memSize = memBlock.size();
 		unsigned long imageLen = static_cast<unsigned long>(memSize) - headerLength;
 		unsigned long modifier = (static_cast<unsigned long>(memSize) - imageLen);
 		unsigned long imageSize = imageLen + modifier;
-		std::cout << imageSize << " imageSize" << std::endl;
-		std::cout << memSize << " memBlock" << std::endl;
 		image_data.reserve(imageSize / 3);
 		raw_data.reserve(imageSize);
 
-		unsigned long rawDataIndex = 0;
 		int numberOfLoops = 0;
 		for (std::streamoff i = headerLength; i < imageSize - 3; i += 3)
 		{
@@ -217,17 +207,15 @@ void Image::readImage(std::string fileName)
 				red_count.at(R) += 1;
 				blue_count.at(B) += 1;
 				green_count.at(G) += 1;
-				if (R != B && B != G && R != G) { isGrayscale = false; }
 
 				int avrg = (R + G + B) / 3;
-				if (avrg != 1 && avrg != 255 && avrg != 253)
-				{
-					isMonochrome = false;
-				}
-
 				Pixel pixel(R, G, B, avrg);
 				image_data.push_back(pixel);
-				rawDataIndex += 3;
+
+				if (R != B && B != G && R != G)
+				{
+					isGrayscale = false;
+				}				
 			}
 		}
 		file.close();
@@ -260,7 +248,7 @@ void Image::updateRawData(formats format)
 ///</summary>
 ///<param name="fileName">A string that is the fileName that the file should be created at.</param>
 ///<return>void</return>
-const void Image::writeToFile(std::string fileName)
+void Image::writeToFile(std::string fileName) const
 {
 	std::cout << "Writing to file..." << std::endl;
 	std::ofstream file;
@@ -287,8 +275,6 @@ void Image::to_grayscale() const
 	{
 		std::cout << "Converting to graysacle, please wait..." << std::endl;
 		Image grayscale_image = *this;
-		std::cout << grayscale_image.get_image_data().size() << " Image data size" << std::endl;
-		std::vector<Pixel> data = grayscale_image.get_image_data();
 		int taskSize = grayscale_image.image_data.size();
 		for (int i = 0; i < taskSize; ++i)
 		{
@@ -313,7 +299,7 @@ void Image::to_grayscale() const
 ///<return>void</return>
 void Image::to_monochrome()const
 {
-	if (!isMonochrome)
+	if (!isGrayscale)
 	{
 		std::cout << "Converting to monochrome, please wait..." << std::endl;
 		Image monochrome_image = *this;
@@ -325,7 +311,7 @@ void Image::to_monochrome()const
 		monochrome_image.format = PBM;
 		monochrome_image.updateRawData(monochrome_image.format);
 		int sub_index = strlen(monochrome_image.file_name.c_str()) - 4;
-		std::string newName = monochrome_image.file_name.substr(0, sub_index) + "_monochrome.pbm";
+		std::string newName = monochrome_image.file_name.substr(0, sub_index) + "_monochrome.ppm";
 		monochrome_image.set_magic_number("P6");
 		monochrome_image.writeToFile(newName);
 		return;
@@ -342,7 +328,9 @@ void Image::to_monochrome()const
 ///<return>void</return>
 void Image::gen_histogram(Job::args_enum target_color) const
 {
-	std::cout << "Generating histogram..." << std::endl;
+
+
+	std::cout << "Generating histogram ";
 
 	///Percentage vectors - they hold the information about the percentages of each color.
 	std::vector<float> red_percent;
@@ -400,16 +388,19 @@ void Image::gen_histogram(Job::args_enum target_color) const
 		target_percentages = red_percent;
 		color.setPixel(255, 1, 1, 1);
 		suffix = "_histogram_red.ppm";
+		std::cout << "for reds." << std::endl;
 		break;
 	case Job::GREEN:
 		target_percentages = green_percent;
 		color.setPixel(1, 255, 1, 1);
 		suffix = "_histogram_green.ppm";
+		std::cout << "for greens." << std::endl;
 		break;
 	case Job::BLUE:
 		target_percentages = blue_percent;
 		color.setPixel(1, 1, 255, 1);
 		suffix = "_histogram_blue.ppm";
+		std::cout << "for blues." << std::endl;
 		break;
 	case Job::NA:
 		std::cout << "Failed to generate histogram, missing or invalid arguments!" << std::endl;
@@ -443,7 +434,7 @@ void Image::gen_histogram(Job::args_enum target_color) const
 	char* rawData = new char[100 * 256 * 3];
 	int rawIndex = 0;
 
-	
+
 	std::ofstream file;
 	file.open(mainPath, std::ios::binary | std::ios::out);
 
@@ -468,6 +459,7 @@ void Image::gen_histogram(Job::args_enum target_color) const
 	///Writing to file.
 	file.write(rawData, strlen(rawData));
 	file.close();
+	delete[] rawData;
 }
 #pragma  endregion 
 
